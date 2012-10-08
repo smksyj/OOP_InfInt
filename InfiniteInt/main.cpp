@@ -1,14 +1,13 @@
 #include <iostream>
 
+
 #include "InfInt.h"
 
 int main(int argc, char *argv[]) {
-	InfInt a("123");
-	InfInt b("123");
+	InfInt a("9");
+	InfInt b("31");
 
-	InfInt c = a + b;
-
-	cout << c << endl;
+	cout << a + b << endl;
 
 	getchar();
 	/*
