@@ -96,7 +96,7 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 }
 
 InfInt operator-(const InfInt& self, const InfInt& other) {
-
+	
 	return InfInt();
 }
 
