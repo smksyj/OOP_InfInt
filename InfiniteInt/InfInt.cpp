@@ -51,6 +51,10 @@ InfInt::InfInt(const InfInt& value) { // copy constructor
 	}
 }
 
+InfInt::InfInt(InfInt *const target) {
+	this->digits = string(target->digits);
+}
+
 InfInt::~InfInt() {
 }
 
@@ -170,26 +174,27 @@ InfInt operator/(const InfInt& self, const InfInt& other) {
 
 // friend InfInt InfInt::operator/(const InfInt& self, const InfInt& other); // not required
 
-<<<<<<< HEAD
-InfInt InfInt::pow(const InfInt& num, const InfInt& exp) {
+InfInt InfInt::pow(const InfInt& exp) {
 	//exp는 양수로 가정. 음수 들어오면 0반환
+	InfInt temp(this);
 
 	if( exp.digits.compare("0") < 0 ) {
 		return InfInt();
 	}
-	InfInt result('1');
+	InfInt result("1");
 	result.thesign = true;
 
 	for ( int i = 0 ; i < exp ; i++ ) {
-		//result *= num;
+		result = temp * result;
 	}
 
-	if ( num.thesign == false && (((exp.digits.at(0) - '0') % 2)==1)) {
+	if ( temp.thesign == false && (((exp.digits.at(0) - '0') % 2)==1)) {
 		result.thesign = false;
 	}
 
 	return result;
-=======
+}
+
 InfInt InfInt::root() {
 	InfInt me(*this);
 	InfInt ret(-1);
@@ -201,7 +206,6 @@ InfInt InfInt::root() {
 	for(;i*i+one<me;i=i+one)
 		;
 	return ret;
->>>>>>> 9c67ac69e0848757a6fd57a42325d9aa92eacbb3
 }
 
 ostream& operator<<(ostream& out, const InfInt& self) {
