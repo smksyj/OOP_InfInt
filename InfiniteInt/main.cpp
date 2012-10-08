@@ -3,12 +3,10 @@
 #include "InfInt.h"
 
 int main(int argc, char *argv[]) {
-	InfInt a("123");
-	InfInt b("123");
+	InfInt a("-123");
+	InfInt b(a);
 
-	InfInt c = a + b;
-
-	cout << c << endl;
+	cout << b << endl;
 
 	getchar();
 	/*
