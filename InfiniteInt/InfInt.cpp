@@ -1,5 +1,7 @@
 #include "InfInt.h"
 
+const int ASCII_POSITION = 48;
+
 InfInt::InfInt() { // assign 0 as a default value
 	this->digits = string("0");
 	this->thesign = true;
@@ -13,7 +15,7 @@ InfInt::InfInt(int value) {
 		if ( value % 10 == 0 ) {
 			this->digits += "0";
 		} else {
-			this->digits += value % 10 + 48;
+			this->digits += value % 10 + ASCII_POSITION;
 		}
 		value /= 10;
 	}
@@ -97,17 +99,17 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 		int carry = 0;
 		int result = 0;
 		if ( i < other.digits.size() ) {
-			result += (other.digits.at(i) - 48);
+			result += (other.digits.at(i) - ASCII_POSITION);
 		}
 		if ( i < self.digits.size() ) {
-			result += (self.digits.at(i) - 48);
+			result += (self.digits.at(i) - ASCII_POSITION);
 		}
 
 		if ( result > 10 ) {
-			ret.digits += result % 10 + 48;
+			ret.digits += result % 10 + ASCII_POSITION;
 			carry = 1;
 		} else {
-			ret.digits += result + 48;
+			ret.digits += result + ASCII_POSITION;
 		}
 	}
 
