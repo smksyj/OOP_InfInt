@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <string.h>
 
 using namespace std;
 
@@ -36,6 +37,7 @@ public :
 	friend InfInt operator/(const InfInt& , const InfInt&);
 	friend InfInt pow(const InfInt& , const InfInt&);
     // friend InfInt operator/(const InfInt& , const InfInt&); // not required
+    InfInt root();
 
     friend ostream& operator<<(ostream& , const InfInt&);
     // friend istream& operator>>(istream& , InfInt&);    // not required

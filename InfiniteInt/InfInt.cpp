@@ -92,6 +92,7 @@ bool operator<(const InfInt& self, const InfInt& other) {
 }
 
 InfInt operator+(const InfInt& self, const InfInt& other) {
+
 	int carry = 0;
 	InfInt ret;
 	ret.digits.clear();
@@ -119,7 +120,7 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 }
 
 InfInt operator-(const InfInt& self, const InfInt& other) {
-
+	
 	return InfInt();
 }
 
@@ -138,21 +139,24 @@ InfInt operator/(const InfInt& self, const InfInt& other) {
 
 	Int1.thesign= Int2.thesign= true;
 
-	InfInt ef3dfe;
+	InfInt quo;
 
-	InfInt qwevd3r('1');
+	InfInt dummy('1');
 
 	while(Int1.thesign== true){
 		Int1= Int1- Int2;
-		ef3dfe= ef3dfe+ qwevd3r;
+		if(Int1.thesign== true){
+			quo= quo+ dummy;
+		}
 	}
 
-	return ef3dfe;
+	return quo;
 }
 
 // friend InfInt InfInt::operator/(const InfInt& self, const InfInt& other); // not required
 
-InfInt pow(const InfInt& num, const InfInt& exp) {
+<<<<<<< HEAD
+InfInt InfInt::pow(const InfInt& num, const InfInt& exp) {
 	//exp는 양수로 가정. 음수 들어오면 0반환
 
 	if( exp.digits.compare("0") < 0 ) {
@@ -170,6 +174,19 @@ InfInt pow(const InfInt& num, const InfInt& exp) {
 	}
 
 	return result;
+=======
+InfInt InfInt::root() {
+	InfInt me(*this);
+	InfInt ret(-1);
+	InfInt i(1);
+	InfInt one(1);
+	if(this->thesign!=true)
+		return ret;
+	ret=ret+one;
+	for(;i*i+one<me;i=i+one)
+		;
+	return ret;
+>>>>>>> 9c67ac69e0848757a6fd57a42325d9aa92eacbb3
 }
 
 ostream& operator<<(ostream& out, const InfInt& self) {
