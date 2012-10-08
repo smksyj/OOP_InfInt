@@ -122,12 +122,26 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 }
 
 InfInt operator-(const InfInt& self, const InfInt& other) {
-	
+
 	return InfInt();
 }
 
 InfInt operator*(const InfInt& self, const InfInt& other) {
-	return InfInt();
+	InfInt temp, ret;
+	InfInt one("1");
+
+	if(self.thesign == other.thesign){
+		ret.thesign = true;
+	}else{
+		ret.thesign = false;
+	}
+	temp.thesign = other.thesign;
+	while(temp != other){
+		ret = ret+self;
+		temp = temp + one;
+	}
+
+	return ret;
 }
 
 InfInt operator/(const InfInt& self, const InfInt& other) {
