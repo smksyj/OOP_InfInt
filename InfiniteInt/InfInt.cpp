@@ -115,7 +115,7 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 		}
 	}
 
-	return InfInt();
+	return ret;
 }
 
 InfInt operator-(const InfInt& self, const InfInt& other) {
@@ -151,6 +151,26 @@ InfInt operator/(const InfInt& self, const InfInt& other) {
 }
 
 // friend InfInt InfInt::operator/(const InfInt& self, const InfInt& other); // not required
+
+InfInt pow(const InfInt& num, const InfInt& exp) {
+	//exp는 양수로 가정. 음수 들어오면 0반환
+
+	if( exp.digits.compare("0") < 0 ) {
+		return InfInt();
+	}
+	InfInt result('1');
+	result.thesign = true;
+
+	for ( int i = 0 ; i < exp ; i++ ) {
+		//result *= num;
+	}
+
+	if ( num.thesign == false && (((exp.digits.at(0) - '0') % 2)==1)) {
+		result.thesign = false;
+	}
+
+	return result;
+}
 
 ostream& operator<<(ostream& out, const InfInt& self) {
 	if ( self.thesign == false ) {

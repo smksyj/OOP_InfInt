@@ -34,6 +34,7 @@ public :
     friend InfInt operator-(const InfInt& , const InfInt&);
     friend InfInt operator*(const InfInt& , const InfInt&);
 	friend InfInt operator/(const InfInt& , const InfInt&);
+	friend InfInt pow(const InfInt& , const InfInt&);
     // friend InfInt operator/(const InfInt& , const InfInt&); // not required
 
     friend ostream& operator<<(ostream& , const InfInt&);

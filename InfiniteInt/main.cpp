@@ -5,7 +5,7 @@
 int main(int argc, char *argv[]) {
 	InfInt a("9");
 	InfInt b("31");
-
+	
 	cout << a + b << endl;
 
 	getchar();
