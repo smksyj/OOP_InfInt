@@ -125,6 +125,10 @@ InfInt operator*(const InfInt& self, const InfInt& other) {
 
 // friend InfInt InfInt::operator/(const InfInt& self, const InfInt& other); // not required
 
+InfInt InfInt::root() {
+	return InfInt();
+}
+
 ostream& operator<<(ostream& out, const InfInt& self) {
 	if ( self.thesign == false ) {
 		for ( int i = self.digits.size() - 1; i > -1; i-- ) {
