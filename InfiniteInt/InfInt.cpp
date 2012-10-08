@@ -90,9 +90,28 @@ bool operator<(const InfInt& self, const InfInt& other) {
 }
 
 InfInt operator+(const InfInt& self, const InfInt& other) {
-	self.digits;
+	InfInt ret;
+	ret.digits.clear();
 
-	return InfInt();
+	for ( int i = 0; i < self.digits.size() || i < other.digits.size(); i++ ) {
+		int carry = 0;
+		int result = 0;
+		if ( i < other.digits.size() ) {
+			result += (other.digits.at(i) - 48);
+		}
+		if ( i < self.digits.size() ) {
+			result += (self.digits.at(i) - 48);
+		}
+
+		if ( result > 10 ) {
+			ret.digits += result % 10 + 48;
+			carry = 1;
+		} else {
+			ret.digits += result + 48;
+		}
+	}
+
+	return ret;
 }
 
 InfInt operator-(const InfInt& self, const InfInt& other) {

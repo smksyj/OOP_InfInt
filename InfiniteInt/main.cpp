@@ -4,9 +4,12 @@
 #include "InfInt.h"
 
 int main(int argc, char *argv[]) {
-	InfInt a("1232903848927598345972389465");
+	InfInt a("123");
+	InfInt b("123");
 
-	cout << a << endl;
+	InfInt c = a + b;
+
+	cout << c << endl;
 
 	getchar();
 	/*
