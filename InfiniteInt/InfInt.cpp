@@ -1,5 +1,7 @@
 #include "InfInt.h"
 
+const int ASCII_POSITION = 48;
+
 InfInt::InfInt() { // assign 0 as a default value
 	this->digits = string("0");
 	this->thesign = true;
@@ -13,7 +15,7 @@ InfInt::InfInt(int value) {
 		if ( value % 10 == 0 ) {
 			this->digits += "0";
 		} else {
-			this->digits += value % 10 + 48;
+			this->digits += value % 10 + ASCII_POSITION;
 		}
 		value /= 10;
 	}
@@ -26,11 +28,10 @@ InfInt::InfInt(const char* value) {
 		this->thesign = false;
 		this->digits = "";
 		for ( int i = len; i > 0; i-- ) {
-			if ( isdigit(value[len]) != 0 ) {
+			if ( isdigit(value[i]) != 0 ) {
 				this->digits += value[i];
 			}
 		}
-		this->digits += '-';
 	} else {
 		this->thesign = true;
 		for ( int i = len; i > -1; i-- ) {
@@ -97,17 +98,17 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 		int carry = 0;
 		int result = 0;
 		if ( i < other.digits.size() ) {
-			result += (other.digits.at(i) - 48);
+			result += (other.digits.at(i) - ASCII_POSITION);
 		}
 		if ( i < self.digits.size() ) {
-			result += (self.digits.at(i) - 48);
+			result += (self.digits.at(i) - ASCII_POSITION);
 		}
 
 		if ( result > 10 ) {
-			ret.digits += result % 10 + 48;
+			ret.digits += result % 10 + ASCII_POSITION;
 			carry = 1;
 		} else {
-			ret.digits += result + 48;
+			ret.digits += result + ASCII_POSITION;
 		}
 	}
 
@@ -127,6 +128,7 @@ InfInt operator*(const InfInt& self, const InfInt& other) {
 
 ostream& operator<<(ostream& out, const InfInt& self) {
 	if ( self.thesign == false ) {
+		out.put('-');
 		for ( int i = self.digits.size() - 1; i > -1; i-- ) {
 			out.put(self.digits.at(i));
 		}
