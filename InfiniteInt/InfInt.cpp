@@ -105,7 +105,7 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 		}
 		result += carry;
 
-		if ( result > 10 ) {
+		if ( result >= 10 ) {
 			ret.digits += result % 10 + ASCII_POSITION;
 			carry = 1;
 		} else {
