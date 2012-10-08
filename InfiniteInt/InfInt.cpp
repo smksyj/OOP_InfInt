@@ -91,11 +91,11 @@ bool operator<(const InfInt& self, const InfInt& other) {
 }
 
 InfInt operator+(const InfInt& self, const InfInt& other) {
+	int carry = 0;
 	InfInt ret;
 	ret.digits.clear();
 
-	for ( int i = 0; i < self.digits.size() || i < other.digits.size(); i++ ) {
-		int carry = 0;
+	for ( int i = 0; i < self.digits.size() || i < other.digits.size() || carry == 1; i++ ) {
 		int result = 0;
 		if ( i < other.digits.size() ) {
 			result += (other.digits.at(i) - ASCII_POSITION);
@@ -103,12 +103,14 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 		if ( i < self.digits.size() ) {
 			result += (self.digits.at(i) - ASCII_POSITION);
 		}
+		result += carry;
 
 		if ( result > 10 ) {
 			ret.digits += result % 10 + ASCII_POSITION;
 			carry = 1;
 		} else {
 			ret.digits += result + ASCII_POSITION;
+			carry = 0;
 		}
 	}
 
