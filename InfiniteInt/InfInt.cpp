@@ -51,9 +51,11 @@ InfInt::InfInt(const InfInt& value) { // copy constructor
 	}
 }
 
+/*
 InfInt::InfInt(InfInt *const target) {
 	this->digits = string(target->digits);
 }
+*/
 
 InfInt::~InfInt() {
 }
@@ -176,7 +178,7 @@ InfInt operator/(const InfInt& self, const InfInt& other) {
 
 InfInt InfInt::pow(const InfInt& exp) {
 	//exp는 양수로 가정. 음수 들어오면 0반환
-	InfInt temp(this);
+	InfInt temp(*this);
 
 	if( exp.digits.compare("0") < 0 ) {
 		return InfInt();
