@@ -155,6 +155,19 @@ InfInt operator/(const InfInt& self, const InfInt& other) {
 
 // friend InfInt InfInt::operator/(const InfInt& self, const InfInt& other); // not required
 
+InfInt InfInt::root() {
+	InfInt me(*this);
+	InfInt ret(-1);
+	InfInt i(1);
+	InfInt one(1);
+	if(this->thesign!=true)
+		return ret;
+	ret=ret+one;
+	for(;i*i+one<me;i=i+one)
+		;
+	return ret;
+}
+
 ostream& operator<<(ostream& out, const InfInt& self) {
 	if ( self.thesign == false ) {
 		for ( int i = self.digits.size() - 1; i > -1; i-- ) {
