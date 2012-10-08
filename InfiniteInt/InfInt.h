@@ -23,7 +23,7 @@ public :
     InfInt(const InfInt&); // copy constructor
     ~InfInt(); // destructor
 
-    InfInt operator=(const InfInt&); // assignment operator
+    InfInt& operator=(const InfInt&); // assignment operator
 
     friend bool operator==(const InfInt& , const InfInt&);
     friend bool operator!=(const InfInt& , const InfInt&);

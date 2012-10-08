@@ -55,8 +55,10 @@ InfInt::InfInt(const InfInt& value) { // copy constructor
 InfInt::~InfInt() {
 }
 
-InfInt InfInt::operator=(const InfInt& value) { // assignment operator
-	return InfInt(value.digits.c_str());
+InfInt& InfInt::operator=(const InfInt& value) { // assignment operator
+	this->digits = string(value.digits);
+
+	return *this;
 }
 
 bool operator==(const InfInt& self, const InfInt& other) {
