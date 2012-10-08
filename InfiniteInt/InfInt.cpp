@@ -28,11 +28,10 @@ InfInt::InfInt(const char* value) {
 		this->thesign = false;
 		this->digits = "";
 		for ( int i = len; i > 0; i-- ) {
-			if ( isdigit(value[len]) != 0 ) {
+			if ( isdigit(value[i]) != 0 ) {
 				this->digits += value[i];
 			}
 		}
-		this->digits += '-';
 	} else {
 		this->thesign = true;
 		for ( int i = len; i > -1; i-- ) {
@@ -122,12 +121,26 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 }
 
 InfInt operator-(const InfInt& self, const InfInt& other) {
-	
+
 	return InfInt();
 }
 
 InfInt operator*(const InfInt& self, const InfInt& other) {
-	return InfInt();
+	InfInt temp, ret;
+	InfInt one("1");
+
+	if(self.thesign == other.thesign){
+		ret.thesign = true;
+	}else{
+		ret.thesign = false;
+	}
+	temp.thesign = other.thesign;
+	while(temp != other){
+		ret = ret+self;
+		temp = temp + one;
+	}
+
+	return ret;
 }
 
 InfInt operator/(const InfInt& self, const InfInt& other) {
@@ -193,6 +206,7 @@ InfInt InfInt::root() {
 
 ostream& operator<<(ostream& out, const InfInt& self) {
 	if ( self.thesign == false ) {
+		out.put('-');
 		for ( int i = self.digits.size() - 1; i > -1; i-- ) {
 			out.put(self.digits.at(i));
 		}
