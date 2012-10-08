@@ -20,18 +20,20 @@ InfInt::InfInt(int value) {
 }
 
 InfInt::InfInt(const char* value) {
+	int len = strlen(value) - 1;
+
 	if ( value[0] == '-' ) {
 		this->thesign = false;
 		this->digits = "";
-		for ( int i = 1; value[i] != NULL; i++ ) {
-			if ( isdigit(value[i]) != 0 ) {
+		for ( int i = len; i > 0; i-- ) {
+			if ( isdigit(value[len]) != 0 ) {
 				this->digits += value[i];
 			}
 		}
+		this->digits += '-';
 	} else {
 		this->thesign = true;
-		//this->digits = string(value);
-		for ( int i = 0; value[i] != NULL; i++ ) {
+		for ( int i = len; i > -1; i-- ) {
 			if ( isdigit(value[i]) != 0 ) {
 				this->digits += value[i];
 			}
@@ -51,7 +53,7 @@ InfInt::InfInt(const InfInt& value) { // copy constructor
 InfInt::~InfInt() {
 }
 
-InfInt& InfInt::operator=(const InfInt& value) { // assignment operator
+InfInt InfInt::operator=(const InfInt& value) { // assignment operator
 	return InfInt(value.digits.c_str());
 }
 
@@ -106,13 +108,14 @@ InfInt operator*(const InfInt& self, const InfInt& other) {
 
 ostream& operator<<(ostream& out, const InfInt& self) {
 	if ( self.thesign == false ) {
-		out.put('-');
+		for ( int i = self.digits.size() - 1; i > -1; i-- ) {
+			out.put(self.digits.at(i));
+		}
+	} else {
+		for ( int i = self.digits.size() - 1; i > -1; i-- ) {
+			out.put(self.digits.at(i));
+		}
 	}
-
-	for ( int i = 0; i < (unsigned int)self.digits.size(); i++ ) {
-		out.put(self.digits.at(i));
-	}
-
 	return out;
 }
 // friend istream& InfInt::operator>>(istream& , InfInt&);    // not required

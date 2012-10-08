@@ -3,7 +3,7 @@
 #include "InfInt.h"
 
 int main(int argc, char *argv[]) {
-	InfInt a("-39495983");
+	InfInt a("1232903848927598345972389465");
 
 	cout << a << endl;
 
