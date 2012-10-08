@@ -1,7 +1,5 @@
 #include "InfInt.h"
 
-const int ASCII_POSITION = 48;
-
 InfInt::InfInt() { // assign 0 as a default value
 	this->digits = string("0");
 	this->thesign = true;
@@ -15,7 +13,7 @@ InfInt::InfInt(int value) {
 		if ( value % 10 == 0 ) {
 			this->digits += "0";
 		} else {
-			this->digits += value % 10 + ASCII_POSITION;
+			this->digits += value % 10 + 48;
 		}
 		value /= 10;
 	}
@@ -28,10 +26,11 @@ InfInt::InfInt(const char* value) {
 		this->thesign = false;
 		this->digits = "";
 		for ( int i = len; i > 0; i-- ) {
-			if ( isdigit(value[i]) != 0 ) {
+			if ( isdigit(value[len]) != 0 ) {
 				this->digits += value[i];
 			}
 		}
+		this->digits += '-';
 	} else {
 		this->thesign = true;
 		for ( int i = len; i > -1; i-- ) {
@@ -91,6 +90,9 @@ bool operator<(const InfInt& self, const InfInt& other) {
 }
 
 InfInt operator+(const InfInt& self, const InfInt& other) {
+<<<<<<< HEAD
+	self.digits;
+=======
 	int carry = 0;
 	InfInt ret;
 	ret.digits.clear();
@@ -113,8 +115,9 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 			carry = 0;
 		}
 	}
+>>>>>>> cd8e754c15ea00bb4717d43b73de95a71120ec71
 
-	return ret;
+	return InfInt();
 }
 
 InfInt operator-(const InfInt& self, const InfInt& other) {
@@ -126,11 +129,33 @@ InfInt operator*(const InfInt& self, const InfInt& other) {
 	return InfInt();
 }
 
+InfInt operator/(const InfInt& self, const InfInt& other) {
+	bool sign_result= true;
+	if(self.thesign!= other.thesign){
+		sign_result= false;
+	}
+
+	InfInt Int1(self);
+	InfInt Int2(other);
+
+	Int1.thesign= Int2.thesign= true;
+
+	InfInt ef3dfe;
+
+	InfInt qwevd3r('1');
+
+	while(Int1.thesign== true){
+		Int1= Int1- Int2;
+		ef3dfe= ef3dfe+ qwevd3r;
+	}
+
+	return ef3dfe;
+}
+
 // friend InfInt InfInt::operator/(const InfInt& self, const InfInt& other); // not required
 
 ostream& operator<<(ostream& out, const InfInt& self) {
 	if ( self.thesign == false ) {
-		out.put('-');
 		for ( int i = self.digits.size() - 1; i > -1; i-- ) {
 			out.put(self.digits.at(i));
 		}
