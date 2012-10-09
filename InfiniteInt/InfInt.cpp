@@ -117,12 +117,37 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 	}
 
 
-	return InfInt();
+	return ret;
 }
 
 InfInt operator-(const InfInt& self, const InfInt& other) {
 	
-	return InfInt();
+	int carry = 0;
+	InfInt ret;
+	
+	ret.digits.clear();
+	
+	for ( int i = 0; i < self.digits.size() || i < other.digits.size() || carry == 1; i++ ) {
+		int result = 0;
+		if ( i < self.digits.size() ) {
+			result += (self.digits.at(i) - ASCII_POSITION);
+		}
+		if ( i < other.digits.size() ) {
+			result -= (other.digits.at(i) - ASCII_POSITION);
+		}
+		
+		result += carry;
+		
+		if ( result < '0') {
+			ret.digits += (unsigned)(result -10) % 10 + ASCII_POSITION;
+			carry = -1;
+		} else {
+			ret.digits += (unsigned)result + ASCII_POSITION;
+			carry = 0;
+		}
+	}
+	
+	return ret;
 }
 
 InfInt operator*(const InfInt& self, const InfInt& other) {

@@ -4,10 +4,10 @@
 #include "InfInt.h"
 
 int main(int argc, char *argv[]) {
-	InfInt a("9");
-	InfInt b("31");
+	InfInt a("99");
+	InfInt b("32");
 
-	cout << a + b << endl;
+	cout << a - b << endl;
 
 	getchar();
 	/*
