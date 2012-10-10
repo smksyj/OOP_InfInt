@@ -245,18 +245,23 @@ InfInt operator-(const InfInt& self, const InfInt& other) {
 }
 
 InfInt operator*(const InfInt& self, const InfInt& other) {
-	InfInt ret;
+	InfInt ret, tempVal(self);
+	if(self.digits == ret.digits ||other.digits == ret.digits){
+		return ret;
+	}
+
 	if(self.thesign == other.thesign){
 		ret.thesign = true;
 	}else{
 		ret.thesign = false;
 	}
-
+	tempVal.thesign = ret.thesign;
+		
 	for(int i=0; i < other.digits.length(); i++){
 		InfInt temp;
 		temp.thesign = ret.thesign;
 		for(char j='0'; j < other.digits[i]; j++){
-			temp = temp + self;
+			temp = temp + tempVal;
 		}
 		for(int k = 0; k < i; k++){
 			temp.digits = '0' + temp.digits;
