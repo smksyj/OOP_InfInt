@@ -151,7 +151,7 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 				result += carry;
 
 				if ( result >= 10 ) {
-					result /= 10;
+					result -= 10;
 					carry = 1;
 				} else {
 					carry = 0;
@@ -173,7 +173,7 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 				result += carry;
 
 				if ( result >= 10 ) {
-					result /= 10;
+					result -= 10;
 					carry = 1;
 				} else {
 					carry = 0;
