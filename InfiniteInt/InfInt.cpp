@@ -210,7 +210,7 @@ InfInt operator/(const InfInt& self, const InfInt& other) {
 // friend InfInt InfInt::operator/(const InfInt& self, const InfInt& other); // not required
 
 InfInt InfInt::pow(const InfInt& exp) {
-	//exp¥¬ æÁºˆ∑Œ ∞°¡§. ¿Ωºˆ µÈæÓø¿∏È 0π›»Ø
+	//exp¥¬ æÁº??��??�°¡�? ¿Ωº? µÈæÓø¿?��?0??�»�?
 	InfInt temp(*this);
 
 	if( exp.digits.compare("0") < 0 ) {
