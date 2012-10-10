@@ -4,8 +4,8 @@
 
 int main(int argc, char *argv[]) {
 
-	InfInt a("-0");
-	InfInt b("0");
+	InfInt a("-23");
+	InfInt b("-0");
 
 
 

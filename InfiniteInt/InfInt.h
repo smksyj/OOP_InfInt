@@ -1,4 +1,4 @@
-#pragma once
+#ifndef INFINT_H_
 #include <iostream>
 #include <string.h>
 
@@ -35,8 +35,9 @@ public :
     friend InfInt operator*(const InfInt& , const InfInt&);
     friend InfInt operator/(const InfInt& , const InfInt&);
     InfInt pow(const InfInt&);
-    InfInt root();
+    InfInt root(const InfInt& num=InfInt(2));
 
     friend ostream& operator<<(ostream& , const InfInt&);
     // friend istream& operator>>(istream& , InfInt&);    // not required
 };
+#endif

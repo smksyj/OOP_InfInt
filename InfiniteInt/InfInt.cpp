@@ -173,7 +173,7 @@ InfInt operator-(const InfInt& self, const InfInt& other) {
 
 	ret.digits.clear();
 	if(self.thesign==other.thesign){
-		if(self.thesign==true&&self>other){
+		if((self.thesign==true&&self>other)||(self.thesign==false&&self<other)){
 			for ( int i = 0; i < self.digits.size() || i < other.digits.size() || carry == 1; i++ ) {
 				int result = 0;
 				if ( i < self.digits.size() ) {
@@ -190,7 +190,9 @@ InfInt operator-(const InfInt& self, const InfInt& other) {
 				}
 				ret.digits += (unsigned)result + ASCII_POSITION;
 			}
-			
+			if(self.thesign==false){
+				ret.thesign=false;
+			}
 		}else{
 			for ( int i = 0; i < self.digits.size() || i < other.digits.size() || carry == 1; i++ ) {
 				int result = 0;
@@ -299,7 +301,7 @@ InfInt operator/(const InfInt& self, const InfInt& other) {
 // friend InfInt InfInt::operator/(const InfInt& self, const InfInt& other); // not required
 
 InfInt InfInt::pow(const InfInt& exp) {
-	//expÂ¬?¢Â???šÂ¶âˆšÃ…Â¬???Ã«???Ã»Â¬?žÂ?°Â? Â¬Ã¸Å’Â©Â¬?? Â¬Âµ?šÃ âˆšÂ¶?šÃ¬âˆš?Â??Ã¨??0???«Â?ªâˆš?
+	//exp is positive number
 	InfInt temp(*this);
 
 	if( exp.digits.compare("0") < 0 ) {
@@ -319,16 +321,25 @@ InfInt InfInt::pow(const InfInt& exp) {
 	return result;
 }
 
-InfInt InfInt::root() {
+InfInt InfInt::root(const InfInt& num) {
+#ifdef DEBUG
+	cout<<"Start root in debugging mode..."<<endl;
+#endif
 	InfInt me(*this);
+#ifdef DEBUG
+	cout<<"me:"<<me<<" num:"<<num<<endl;
+#endif
 	InfInt ret(-1);
-	InfInt i(1);
 	InfInt one(1);
-	if(this->thesign!=true)
+	if(this->thesign!=true||num<one)
 		return ret;
 	ret=ret+one;
-	for(;i*i+one<me;i=i+one)
-		;
+	for(;ret.pow(num)+one<me;ret=ret+one){
+#ifdef DEBUG
+		cout<<"ret:"<<ret<<" ret.pow(num):"<<ret.pow(num)<<" ret.pow(num+one<me:"<<(ret.pow(num)+one<me)<<endl<<"Press any key..."<<endl;
+		getchar();
+#endif
+	}
 	return ret;
 }
 
