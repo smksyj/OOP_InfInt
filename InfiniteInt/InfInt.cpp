@@ -258,11 +258,14 @@ InfInt InfInt::pow(const InfInt& exp) {
 	return result;
 }
 
-InfInt InfInt::root(const InfInt& num=InfInt(2)) {
+InfInt InfInt::root(const InfInt& num) {
 #ifdef DEBUG
 	cout<<"Start root in debugging mode..."<<endl;
 #endif
 	InfInt me(*this);
+#ifdef DEBUG
+	cout<<"me:"<<me<<" num:"<<num<<endl;
+#endif
 	InfInt ret(-1);
 	InfInt one(1);
 	if(this->thesign!=true||num<one)
