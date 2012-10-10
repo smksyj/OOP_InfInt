@@ -173,7 +173,7 @@ InfInt operator-(const InfInt& self, const InfInt& other) {
 
 	ret.digits.clear();
 	if(self.thesign==other.thesign){
-		if(self.thesign==true&&self>other){
+		if((self.thesign==true&&self>other)||(self.thesign==false&&self<other)){
 			for ( int i = 0; i < self.digits.size() || i < other.digits.size() || carry == 1; i++ ) {
 				int result = 0;
 				if ( i < self.digits.size() ) {
@@ -190,7 +190,9 @@ InfInt operator-(const InfInt& self, const InfInt& other) {
 				}
 				ret.digits += (unsigned)result + ASCII_POSITION;
 			}
-			
+			if(self.thesign==false){
+				ret.thesign=false;
+			}
 		}else{
 			for ( int i = 0; i < self.digits.size() || i < other.digits.size() || carry == 1; i++ ) {
 				int result = 0;

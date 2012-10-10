@@ -4,8 +4,8 @@
 
 int main(int argc, char *argv[]) {
 
-	InfInt a("40");
-	InfInt b("50");
+	InfInt a("-60");
+	InfInt b("-30");
 
 
 	cout << a - b << endl;
