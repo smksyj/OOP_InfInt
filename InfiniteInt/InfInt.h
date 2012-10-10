@@ -1,4 +1,4 @@
-#pragma once
+#ifndef INFINT_H_
 #include <iostream>
 #include <string.h>
 
@@ -40,3 +40,4 @@ public :
     friend ostream& operator<<(ostream& , const InfInt&);
     // friend istream& operator>>(istream& , InfInt&);    // not required
 };
+#endif
