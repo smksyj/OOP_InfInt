@@ -63,7 +63,7 @@ InfInt::~InfInt() {
 
 InfInt& InfInt::operator=(const InfInt& value) { // assignment operator
 	this->digits = string(value.digits);
-
+	this->thesign = value.thesign;
 	return *this;
 }
 
