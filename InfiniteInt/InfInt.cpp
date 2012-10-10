@@ -138,8 +138,8 @@ InfInt operator-(const InfInt& self, const InfInt& other) {
 	InfInt ret;
 	
 	ret.digits.clear();
-	
-	
+
+	// It operates only first number is larger than second num.
 	if(self.thesign==other.thesign){
 		for ( int i = 0; i < self.digits.size() || i < other.digits.size() || carry == 1; i++ ) {
 			int result = 0;
@@ -151,14 +151,13 @@ InfInt operator-(const InfInt& self, const InfInt& other) {
 			}
 			
 			result += carry;
+			carry = result<0?-1:0;
 			
-			if ( result < '0') {
-				ret.digits += (unsigned)(result -10) % 10 + ASCII_POSITION;
-				carry = -1;
-			} else {
-				ret.digits += (unsigned)result + ASCII_POSITION;
-				carry = 0;
+			if(result<0){
+				result+=10;
 			}
+			
+			ret.digits += (unsigned)result + ASCII_POSITION;
 		}
 	}
 	return ret;
@@ -211,7 +210,7 @@ InfInt operator/(const InfInt& self, const InfInt& other) {
 // friend InfInt InfInt::operator/(const InfInt& self, const InfInt& other); // not required
 
 InfInt InfInt::pow(const InfInt& exp) {
-	//exp´Â ¾ç¼ö·Î °¡Á¤. À½¼ö µé¾î¿À¸é 0¹ÝÈ¯
+	//expÂ¥Â¬ Ã¦ÃÂºË†âˆ‘Å’ âˆžÂ°Â¡Â§. Â¿Î©ÂºË† ÂµÃˆÃ¦Ã“Ã¸Â¿âˆÃˆ 0Ï€â€ºÂ»Ã˜
 	InfInt temp(*this);
 
 	if( exp.digits.compare("0") < 0 ) {
