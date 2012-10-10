@@ -362,6 +362,7 @@ InfInt InfInt::root(const InfInt& num) {
 }
 
 ostream& operator<<(ostream& out, const InfInt& self) {
+	bool print = false;
 	if ( self.digits.compare("0") == 0 ) {
 		out.put('0');
 		return out;
@@ -370,11 +371,24 @@ ostream& operator<<(ostream& out, const InfInt& self) {
 	if ( self.thesign == false ) {
 		out.put('-');
 		for ( int i = self.digits.size() - 1; i > -1; i-- ) {
-			out.put(self.digits.at(i));
+			if ( self.digits.at(i) != '0' ) {
+				print = true;
+			}
+
+			if ( print ) {
+				out.put(self.digits.at(i));
+			}
 		}
 	} else {
 		for ( int i = self.digits.size() - 1; i > -1; i-- ) {
-			out.put(self.digits.at(i));
+			//out.put(self.digits.at(i));
+			if ( self.digits.at(i) != '0' ) {
+				print = true;
+			}
+
+			if ( print ) {
+				out.put(self.digits.at(i));
+			}
 		}
 	}
 	return out;
