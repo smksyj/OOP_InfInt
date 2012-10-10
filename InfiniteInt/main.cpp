@@ -1,15 +1,13 @@
 #include <iostream>
 
-
 #include "InfInt.h"
 
 int main(int argc, char *argv[]) {
 
-	InfInt a("-228");
+	InfInt a("10");
 	InfInt b("36");
 
 	cout << (a > b) << endl;
-
 
 	getchar();
 	/*
