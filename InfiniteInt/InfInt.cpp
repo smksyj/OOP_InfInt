@@ -138,28 +138,51 @@ InfInt operator-(const InfInt& self, const InfInt& other) {
 	InfInt ret;
 	
 	ret.digits.clear();
-
-	// It operates only first number is larger than second num.
-	if(self.thesign==other.thesign){
-		for ( int i = 0; i < self.digits.size() || i < other.digits.size() || carry == 1; i++ ) {
-			int result = 0;
-			if ( i < self.digits.size() ) {
-				result += (self.digits.at(i) - ASCII_POSITION);
+	if(self>other){
+		// It operates only first number is larger than second num.
+		if(self.thesign==other.thesign){
+			for ( int i = 0; i < self.digits.size() || i < other.digits.size() || carry == 1; i++ ) {
+				int result = 0;
+				if ( i < self.digits.size() ) {
+					result += (self.digits.at(i) - ASCII_POSITION);
+				}
+				if ( i < other.digits.size() ) {
+					result -= (other.digits.at(i) - ASCII_POSITION);
+				}
+				
+				result += carry;
+				carry = result<0?-1:0;
+				
+				if(result<0){
+					result+=10;
+				}
+				
+				ret.digits += (unsigned)result + ASCII_POSITION;
 			}
-			if ( i < other.digits.size() ) {
-				result -= (other.digits.at(i) - ASCII_POSITION);
+		}
+	}else{
+		if(self.thesign==other.thesign){
+			for ( int i = 0; i < self.digits.size() || i < other.digits.size() || carry == 1; i++ ) {
+				int result = 0;
+				if ( i < other.digits.size() ) {
+					result += (other.digits.at(i) - ASCII_POSITION);
+				}
+				if ( i < self.digits.size() ) {
+					result -= (self.digits.at(i) - ASCII_POSITION);
+				}
+				
+				result += carry;
+				carry = result<0?-1:0;
+				
+				if(result<0){
+					result+=10;
+				}
+				
+				ret.digits += (unsigned)result + ASCII_POSITION;
 			}
-			
-			result += carry;
-			carry = result<0?-1:0;
-			
-			if(result<0){
-				result+=10;
-			}
-			
-			ret.digits += (unsigned)result + ASCII_POSITION;
 		}
 	}
+	
 	return ret;
 
 }
