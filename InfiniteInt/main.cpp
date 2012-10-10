@@ -4,11 +4,11 @@
 
 int main(int argc, char *argv[]) {
 
-	InfInt a("10");
-	InfInt b("36");
+	InfInt a("7");
+	InfInt b("5");
 
 
-	cout << a - b << endl;
+	cout << a + b << endl;
 
 
 	getchar();

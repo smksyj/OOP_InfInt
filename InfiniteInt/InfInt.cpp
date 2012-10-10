@@ -1,4 +1,5 @@
 #include "InfInt.h"
+#include "string"
 
 const int ASCII_POSITION = 48;
 
@@ -157,7 +158,6 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 		}
 		ret.thesign = self.thesign;
 	}else{
-
 	}
 
 	return ret;
