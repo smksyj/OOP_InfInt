@@ -5,7 +5,7 @@
 int main(int argc, char *argv[]) {
 
 	InfInt a("40");
-	InfInt b("36");
+	InfInt b("50");
 
 
 	cout << a - b << endl;
