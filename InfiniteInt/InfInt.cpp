@@ -132,136 +132,146 @@ bool operator<(const InfInt& self, const InfInt& other) {
 }
 
 InfInt operator+(const InfInt& self, const InfInt& other) {
-
 	int carry = 0;
 	InfInt ret;
-	InfInt self2(self);
-	InfInt other2(other);
 	ret.digits.clear();
+	int maxLength = self.digits.size() > other.digits.size() ? self.digits.size() : other.digits.size();
 
-	if(self.thesign==other.thesign){
-		for ( int i = 0; i < self.digits.size() || i < other.digits.size() || carry == 1; i++ ) {
-			int result = 0;
-			if ( i < other.digits.size() ) {
-				result += (other.digits.at(i) - ASCII_POSITION);
-			}
-			if ( i < self.digits.size() ) {
-				result += (self.digits.at(i) - ASCII_POSITION);
-			}
-			result += carry;
+	if ( self.thesign == other.thesign ) {
+		if ( self.thesign == true ) { // +, +
+			for ( int i = 0; i < maxLength || carry == 1; i++ ) {
+				int result = 0;
 
-			if ( result >= 10 ) {
-				ret.digits += result % 10 + ASCII_POSITION;
-				carry = 1;
-			} else {
+				if ( self.digits.size() > i ) {
+					result += (self.digits.at(i) - ASCII_POSITION);
+				}
+				if ( other.digits.size() > i ) {
+					result +=  + (other.digits.at(i) - ASCII_POSITION);
+				}
+				result += carry;
+
+				if ( result >= 10 ) {
+					result /= 10;
+					carry = 1;
+				} else {
+					carry = 0;
+				}
+
+				ret.digits += result + 48;
+			}
+
+		} else { // -, -
+			for ( int i = 0; i < maxLength || carry == 1; i++ ) {
+				int result = 0;
+
+				if ( self.digits.size() > i ) {
+					result += (self.digits.at(i) - ASCII_POSITION);
+				}
+				if ( other.digits.size() > i ) {
+					result +=  + (other.digits.at(i) - ASCII_POSITION);
+				}
+				result += carry;
+
+				if ( result >= 10 ) {
+					result /= 10;
+					carry = 1;
+				} else {
+					carry = 0;
+				}
+
 				ret.digits += result + ASCII_POSITION;
-				carry = 0;
 			}
-		}
-		ret.thesign = self.thesign;
-	}else{
 
-		if(self2.thesign==true){
-			self2.thesign=false;
-			ret=self2-other2;
-		}else{
-			other2.thesign=false;
-			ret=self2-other2;
-			ret.thesign=false;
+			ret.thesign = false;
+
 		}
+	} else { // self.thesign != other.thesign
+//		if ( self.thesign == true ) { // +, -
+
+			if ( self.digits.size() > other.digits.size() ) { // 길이가 self가 더 클 경우 -> self에서 빼기
+			selfIsBigger:
+				for ( int i = 0; i < maxLength; i++ ) {
+					int result = 0;
+
+					if ( self.digits.size() > i ) {
+						result += (self.digits.at(i) - ASCII_POSITION) - carry;
+					}
+					if ( other.digits.size() > i ) {
+						result -= (other.digits.at(i) - ASCII_POSITION);
+					}
+
+					if ( result < 0 ) {
+						result = 10 + result;
+						carry = 1;
+					} else {
+						carry = 0;
+					}
+
+					ret.digits += result + ASCII_POSITION;
+				}
+
+				ret.thesign = self.thesign;
+				if ( ret.digits.compare("0") == 0 ) {
+					ret.thesign = true;
+				}
+
+			} else if ( self.digits.size() < other.digits.size() ) { // 길이가 self가 더 작을 경우 -> other에서 빼기
+			selfIsSmaller:
+				for ( int i = 0; i < maxLength; i++ ) {
+					int result = 0;
+
+					if ( other.digits.size() > i ) {
+						result += (other.digits.at(i) - ASCII_POSITION) - carry;
+					}
+					if ( self.digits.size() > i ) {
+						result -= (self.digits.at(i) - ASCII_POSITION);
+					}
+
+					if ( result < 0 ) {
+						result = 10 + result;
+						carry = 1;
+					} else {
+						carry = 0;
+					}
+
+					ret.digits += result + ASCII_POSITION;
+				}
+
+				ret.thesign = other.thesign;
+				if ( ret.digits.compare("0") == 0 ) {
+					ret.thesign = true;
+				}
+
+
+			} else { // 길이가 같을 경우
+				for ( int i = self.digits.size() - 1; i >= 0; i-- ) {
+					if ( self.digits.at(i) - other.digits.at(i) > 0 ) {
+						goto selfIsBigger;
+					} else if ( self.digits.at(i) - other.digits.at(i) < 0 ) {
+						goto selfIsSmaller;
+					} else {
+						return InfInt("0");
+					}
+				}
+			}
+
+			/*
+		} else { // -, +
+			
+		}
+		*/
 	}
-	
-	if(ret.digits.compare("0") == 0){
-		ret.thesign = true;
-	}
+
+
 	return ret;
 }
 
 InfInt operator-(const InfInt& self, const InfInt& other) {
-
-
-	int carry = 0;
-	InfInt self2(self);
-	InfInt other2(other);
-	InfInt ret;
-
-	ret.digits.clear();
-	if(self.thesign==other.thesign){
-		if((self.thesign==true&&self>other)||(self.thesign==false&&self<other)){
-			for ( int i = 0; i < self.digits.size() || i < other.digits.size() || carry == 1; i++ ) {
-				int result = 0;
-				if ( i < self.digits.size() ) {
-					result += (self.digits.at(i) - ASCII_POSITION);
-				}
-				if ( i < other.digits.size() ) {
-					result -= (other.digits.at(i) - ASCII_POSITION);
-				}
-				result += carry;
-				carry = result<0?-1:0;
-				
-				if(result<0){
-					result+=10;
-				}
-				ret.digits += (unsigned)result + ASCII_POSITION;
-			}
-			if(self.thesign==false){
-				ret.thesign=false;
-			}
-		}else{
-			for ( int i = 0; i < self.digits.size() || i < other.digits.size() || carry == 1; i++ ) {
-				int result = 0;
-				if ( i < other.digits.size() ) {
-					result += (other.digits.at(i) - ASCII_POSITION);
-				}
-				if ( i < self.digits.size() ) {
-					result -= (self.digits.at(i) - ASCII_POSITION);
-				}
-				
-				result += carry;
-				carry = result<0?-1:0;
-				
-				if(result<0){
-					result+=10;
-				}
-				
-				ret.digits += (unsigned)result + ASCII_POSITION;
-			}
-			if(self.thesign==false){
-				ret.thesign=true;
-			}
-		}
-		if(self.thesign==true&&self<other){
-			ret.thesign=false;
-		}
-		
-	}else{
-		
-		for ( int i = 0; i < self.digits.size() || i < other.digits.size() || carry == 1; i++ ) {
-			int result = 0;
-			if ( i < other.digits.size() ) {
-				result += (other.digits.at(i) - ASCII_POSITION);
-			}
-			if ( i < self.digits.size() ) {
-				result += (self.digits.at(i) - ASCII_POSITION);
-			}
-			result += carry;
-			
-			if ( result >= 10 ) {
-				ret.digits += result % 10 + ASCII_POSITION;
-				carry = 1;
-			} else {
-				ret.digits += result + ASCII_POSITION;
-				carry = 0;
-			}
-		}
-		ret.thesign = self.thesign;
+	InfInt minus(other);
+	if ( other.digits.compare("0") != 0 ) {
+		minus.thesign = false;
 	}
-	
-	if(ret.digits.compare("0") == 0){
-		ret.thesign = true;
-	}
-	return ret;
-
+	return self + minus;
 }
 
 InfInt operator*(const InfInt& self, const InfInt& other) {
@@ -381,7 +391,6 @@ ostream& operator<<(ostream& out, const InfInt& self) {
 		}
 	} else {
 		for ( int i = self.digits.size() - 1; i > -1; i-- ) {
-			//out.put(self.digits.at(i));
 			if ( self.digits.at(i) != '0' ) {
 				print = true;
 			}
