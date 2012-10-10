@@ -1,4 +1,4 @@
-#pragma once
+#ifndef PARSER_H_
 #include <iostream>
 #include <vector>
 
@@ -14,4 +14,4 @@ public:
 	~Parser(void);
 	vector<string> Parser::split(string value, char delemeter);
 };
-
+#endif

@@ -321,16 +321,25 @@ InfInt InfInt::pow(const InfInt& exp) {
 	return result;
 }
 
-InfInt InfInt::root() {
+InfInt InfInt::root(const InfInt& num) {
+#ifdef DEBUG
+	cout<<"Start root in debugging mode..."<<endl;
+#endif
 	InfInt me(*this);
+#ifdef DEBUG
+	cout<<"me:"<<me<<" num:"<<num<<endl;
+#endif
 	InfInt ret(-1);
-	InfInt i(1);
 	InfInt one(1);
-	if(this->thesign!=true)
+	if(this->thesign!=true||num<one)
 		return ret;
 	ret=ret+one;
-	for(;i*i+one<me;i=i+one)
-		;
+	for(;ret.pow(num)+one<me;ret=ret+one){
+#ifdef DEBUG
+		cout<<"ret:"<<ret<<" ret.pow(num):"<<ret.pow(num)<<" ret.pow(num+one<me:"<<(ret.pow(num)+one<me)<<endl<<"Press any key..."<<endl;
+		getchar();
+#endif
+	}
 	return ret;
 }
 
