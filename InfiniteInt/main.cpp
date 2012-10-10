@@ -4,9 +4,9 @@
 
 int main(int argc, char *argv[]) {
 
-	InfInt a("-23");
-	InfInt b("-0");
 
+	InfInt a("123456789");
+	InfInt b("12345678");
 
 
 	cout << a - b << endl;

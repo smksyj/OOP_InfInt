@@ -135,6 +135,8 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 
 	int carry = 0;
 	InfInt ret;
+	InfInt self2(self);
+	InfInt other2(other);
 	ret.digits.clear();
 
 	if(self.thesign==other.thesign){
@@ -158,6 +160,15 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 		}
 		ret.thesign = self.thesign;
 	}else{
+
+		if(self2.thesign==true){
+			self2.thesign=false;
+			ret=self2-other2;
+		}else{
+			other2.thesign=false;
+			ret=self2-other2;
+			ret.thesign=false;
+		}
 	}
 
 	return ret;
@@ -212,13 +223,14 @@ InfInt operator-(const InfInt& self, const InfInt& other) {
 				
 				ret.digits += (unsigned)result + ASCII_POSITION;
 			}
+			if(self.thesign==false){
+				ret.thesign=true;
+			}
 		}
 		if(self.thesign==true&&self<other){
 			ret.thesign=false;
 		}
-		if(self.thesign==false){
-			ret.thesign=true;
-		}
+		
 	}else{
 		
 		for ( int i = 0; i < self.digits.size() || i < other.digits.size() || carry == 1; i++ ) {
