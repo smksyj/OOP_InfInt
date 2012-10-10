@@ -5,10 +5,10 @@
 
 int main(int argc, char *argv[]) {
 
-	InfInt a("10");
+	InfInt a("-228");
 	InfInt b("36");
 
-	cout << a - b << endl;
+	cout << (a > b) << endl;
 
 
 	getchar();
