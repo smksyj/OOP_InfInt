@@ -361,13 +361,16 @@ InfInt InfInt::root(const InfInt& num) {
 	InfInt one(1);
 	if(this->thesign!=true||num<one)
 		return ret;
-	ret=ret+one;
-	for(;ret.pow(num)+one<me;ret=ret+one){
+	for(ret=one;ret.pow(num)<me+one;ret=ret+one){
 #ifdef DEBUG
-		cout<<"ret:"<<ret<<" ret.pow(num):"<<ret.pow(num)<<" ret.pow(num+one<me:"<<(ret.pow(num)+one<me)<<endl<<"Press any key..."<<endl;
+		cout<<"ret:"<<ret<<" ret.pow(num):"<<ret.pow(num)<<" ret.pow(num)<me:"<<(ret.pow(num)<me)<<endl<<"Press any key..."<<endl;
 		getchar();
 #endif
 	}
+	ret=ret-one;
+#ifdef DEBUG
+	cout<<"root() debugging finished. Will return "<<ret<<end
+#endif
 	return ret;
 }
 
