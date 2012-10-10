@@ -1,13 +1,12 @@
 #include <iostream>
 
-
 #include "InfInt.h"
 
 int main(int argc, char *argv[]) {
-	InfInt a("9");
-	InfInt b("31");
+	InfInt a("123235412345312413413512353151213413513513561326346567678456745");
+	InfInt b("452475924349785794746534523236479578657867856754633556476557865875675675676787878784547545334413251345132541");
 	
-	cout << a + b << endl;
+	cout << a * b << endl;
 
 	getchar();
 	/*
