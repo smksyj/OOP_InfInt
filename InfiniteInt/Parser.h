@@ -12,6 +12,6 @@ private:
 public:
 	Parser(void);
 	~Parser(void);
-	vector<string> Parser::split(string value, char delemeter);
+	vector<string> split(string value, char delemeter);
 };
 #endif
