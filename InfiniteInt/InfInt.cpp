@@ -181,6 +181,7 @@ InfInt operator-(const InfInt& self, const InfInt& other) {
 				ret.digits += (unsigned)result + ASCII_POSITION;
 			}
 		}
+		ret.thesign=false;
 	}
 	
 	return ret;
