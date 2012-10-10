@@ -20,6 +20,10 @@ InfInt::InfInt(int value) {
 		}
 		value /= 10;
 	}
+
+	if ( value == 0 ) {
+		this->digits += "0";
+	}
 }
 
 InfInt::InfInt(const char* value) {
@@ -210,6 +214,13 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 					ret.digits += result + ASCII_POSITION;
 				}
 
+				for ( int i = ret.digits.size() - 1; i >= 0; i-- ) {
+					if ( ret.digits.at(i) == '0' ) {
+						ret.digits.pop_back();
+					} else {
+						break;
+					}
+				}
 				ret.thesign = self.thesign;
 				if ( ret.digits.compare("0") == 0 ) {
 					ret.thesign = true;
@@ -236,7 +247,14 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 
 					ret.digits += result + ASCII_POSITION;
 				}
-
+				
+				for ( int i = ret.digits.size() - 1; i >= 0; i-- ) {
+					if ( ret.digits.at(i) == '0' ) {
+						ret.digits.pop_back();
+					} else {
+						break;
+					}
+				}
 				ret.thesign = other.thesign;
 				if ( ret.digits.compare("0") == 0 ) {
 					ret.thesign = true;
