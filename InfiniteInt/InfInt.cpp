@@ -387,7 +387,7 @@ InfInt InfInt::root(const InfInt& num) {
 	}
 	ret=ret-one;
 #ifdef DEBUG
-	cout<<"root() debugging finished. Will return "<<ret<<end
+	cout<<"root() debugging finished. Will return "<<ret<<endl;
 #endif
 	return ret;
 }
