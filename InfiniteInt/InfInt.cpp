@@ -189,18 +189,23 @@ InfInt operator-(const InfInt& self, const InfInt& other) {
 }
 
 InfInt operator*(const InfInt& self, const InfInt& other) {
-	InfInt ret;
+	InfInt ret, tempVal(self);
+	if(self.digits == ret.digits ||other.digits == ret.digits){
+		return ret;
+	}
+
 	if(self.thesign == other.thesign){
 		ret.thesign = true;
 	}else{
 		ret.thesign = false;
 	}
-
+	tempVal.thesign = ret.thesign;
+		
 	for(int i=0; i < other.digits.length(); i++){
 		InfInt temp;
 		temp.thesign = ret.thesign;
 		for(char j='0'; j < other.digits[i]; j++){
-			temp = temp + self;
+			temp = temp + tempVal;
 		}
 		for(int k = 0; k < i; k++){
 			temp.digits = '0' + temp.digits;
@@ -238,7 +243,7 @@ InfInt operator/(const InfInt& self, const InfInt& other) {
 // friend InfInt InfInt::operator/(const InfInt& self, const InfInt& other); // not required
 
 InfInt InfInt::pow(const InfInt& exp) {
-	//exp¥¬ æÁºˆ∑Œ ∞°¡§. ¿Ωºˆ µÈæÓø¿∏È 0π›»Ø
+	//exp¥¬ æÁº??��??�°¡�? ¿Ωº? µÈæÓø¿?��?0??�»�?
 	InfInt temp(*this);
 
 	if( exp.digits.compare("0") < 0 ) {
