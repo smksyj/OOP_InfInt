@@ -28,11 +28,10 @@ InfInt::InfInt(const char* value) {
 		this->thesign = false;
 		this->digits = "";
 		for ( int i = len; i > 0; i-- ) {
-			if ( isdigit(value[len]) != 0 ) {
+			if ( isdigit(value[i]) != 0 ) {
 				this->digits += value[i];
 			}
 		}
-		this->digits += '-';
 	} else {
 		this->thesign = true;
 		for ( int i = len; i > -1; i-- ) {
@@ -52,11 +51,19 @@ InfInt::InfInt(const InfInt& value) { // copy constructor
 	}
 }
 
+/*
+InfInt::InfInt(InfInt *const target) {
+	this->digits = string(target->digits);
+}
+*/
+
 InfInt::~InfInt() {
 }
 
-InfInt InfInt::operator=(const InfInt& value) { // assignment operator
-	return InfInt(value.digits.c_str());
+InfInt& InfInt::operator=(const InfInt& value) { // assignment operator
+	this->digits = string(value.digits);
+
+	return *this;
 }
 
 bool operator==(const InfInt& self, const InfInt& other) {
@@ -116,11 +123,11 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 		}
 	}
 
-
 	return ret;
 }
 
 InfInt operator-(const InfInt& self, const InfInt& other) {
+
 	
 	int carry = 0;
 	InfInt ret;
@@ -148,10 +155,25 @@ InfInt operator-(const InfInt& self, const InfInt& other) {
 	}
 	
 	return ret;
+
 }
 
 InfInt operator*(const InfInt& self, const InfInt& other) {
-	return InfInt();
+	InfInt temp, ret;
+	InfInt one("1");
+
+	if(self.thesign == other.thesign){
+		ret.thesign = true;
+	}else{
+		ret.thesign = false;
+	}
+	temp.thesign = other.thesign;
+	while(temp != other){
+		ret = ret+self;
+		temp = temp + one;
+	}
+
+	return ret;
 }
 
 InfInt operator/(const InfInt& self, const InfInt& other) {
@@ -165,22 +187,59 @@ InfInt operator/(const InfInt& self, const InfInt& other) {
 
 	Int1.thesign= Int2.thesign= true;
 
-	InfInt ef3dfe;
+	InfInt quo;
 
-	InfInt qwevd3r('1');
+	InfInt dummy('1');
 
 	while(Int1.thesign== true){
 		Int1= Int1- Int2;
-		ef3dfe= ef3dfe+ qwevd3r;
+		if(Int1.thesign== true){
+			quo= quo+ dummy;
+		}
 	}
 
-	return ef3dfe;
+	return quo;
 }
 
 // friend InfInt InfInt::operator/(const InfInt& self, const InfInt& other); // not required
 
+InfInt InfInt::pow(const InfInt& exp) {
+	//exp는 양수로 가정. 음수 들어오면 0반환
+	InfInt temp(*this);
+
+	if( exp.digits.compare("0") < 0 ) {
+		return InfInt();
+	}
+	InfInt result("1");
+	result.thesign = true;
+
+	for ( int i = 0 ; i < exp ; i++ ) {
+		result = temp * result;
+	}
+
+	if ( temp.thesign == false && (((exp.digits.at(0) - '0') % 2)==1)) {
+		result.thesign = false;
+	}
+
+	return result;
+}
+
+InfInt InfInt::root() {
+	InfInt me(*this);
+	InfInt ret(-1);
+	InfInt i(1);
+	InfInt one(1);
+	if(this->thesign!=true)
+		return ret;
+	ret=ret+one;
+	for(;i*i+one<me;i=i+one)
+		;
+	return ret;
+}
+
 ostream& operator<<(ostream& out, const InfInt& self) {
 	if ( self.thesign == false ) {
+		out.put('-');
 		for ( int i = self.digits.size() - 1; i > -1; i-- ) {
 			out.put(self.digits.at(i));
 		}

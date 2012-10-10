@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <string.h>
 
 using namespace std;
 
@@ -23,7 +24,7 @@ public :
     InfInt(const InfInt&); // copy constructor
     ~InfInt(); // destructor
 
-    InfInt operator=(const InfInt&); // assignment operator
+    InfInt& operator=(const InfInt&); // assignment operator
 
     friend bool operator==(const InfInt& , const InfInt&);
     friend bool operator!=(const InfInt& , const InfInt&);
@@ -33,8 +34,9 @@ public :
     friend InfInt operator+(const InfInt& , const InfInt&);
     friend InfInt operator-(const InfInt& , const InfInt&);
     friend InfInt operator*(const InfInt& , const InfInt&);
-	friend InfInt operator/(const InfInt& , const InfInt&);
-    // friend InfInt operator/(const InfInt& , const InfInt&); // not required
+    friend InfInt operator/(const InfInt& , const InfInt&);
+    InfInt pow(const InfInt&);
+    InfInt root();
 
     friend ostream& operator<<(ostream& , const InfInt&);
     // friend istream& operator>>(istream& , InfInt&);    // not required
