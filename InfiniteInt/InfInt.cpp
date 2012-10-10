@@ -170,7 +170,10 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 			ret.thesign=false;
 		}
 	}
-
+	
+	if(ret.digits.compare("0") == 0){
+		ret.thesign = true;
+	}
 	return ret;
 }
 
@@ -253,7 +256,10 @@ InfInt operator-(const InfInt& self, const InfInt& other) {
 		}
 		ret.thesign = self.thesign;
 	}
-
+	
+	if(ret.digits.compare("0") == 0){
+		ret.thesign = true;
+	}
 	return ret;
 
 }

@@ -5,12 +5,13 @@
 int main(int argc, char *argv[]) {
 
 
-	InfInt a("123456789");
-	InfInt b("12345678");
+	InfInt a("-1");
+	InfInt b("1");
 
-
-	cout << a - b << endl;
-
+	for(int i=0;i<10;i++){
+	a = a+b;
+	cout << a << endl;
+	}
 
 	getchar();
 	/*
