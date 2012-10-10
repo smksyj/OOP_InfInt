@@ -53,7 +53,7 @@ InfInt::InfInt(const InfInt& value) { // copy constructor
 
 /*
 InfInt::InfInt(InfInt *const target) {
-	this->digits = string(target->digits);
+this->digits = string(target->digits);
 }
 */
 
@@ -79,19 +79,51 @@ bool operator!=(const InfInt& self, const InfInt& other) {
 }
 
 bool operator>(const InfInt& self, const InfInt& other) {
-	if ( self.thesign == false && other.thesign == true ) {
+	if ( self.thesign == false && other.thesign == true ) { // negative, positive
 		return false;
-	} else if ( self.thesign == true && other.thesign == false ) {
+	} else if ( self.thesign == true && other.thesign == false ) { // positive, negative
 		return true;
-	} else if ( self.thesign == true && other.thesign == true ) {
-		return self.digits.compare(other.digits) < 0 ? false : true;
-	} else {
-		return self.digits.compare(other.digits) < 0 ? true : false;
+	} else if ( self.thesign == true && other.thesign == true ) { // both are positive
+		if ( self.digits.size() > other.digits.size() ){
+			return true;
+		}
+		else if( self.digits.size() < other.digits.size() ) {
+			return false;
+		}
+		else {
+			int i = self.digits.size()-1;
+			for ( ; i >= 0 ; i--) {
+				if ( self.digits.at(i) > other.digits.at(i) ) {
+					return true;
+				}
+				else if( self.digits.at(i) < other.digits.at(i) ) {
+					return false;
+				}
+			}
+		}	
+	} else if ( self.thesign == false && other.thesign == false ) { // both are negative
+		if ( self.digits.size() < other.digits.size() ){
+			return true;
+		}
+		else if( self.digits.size() > other.digits.size() ) {
+			return false;
+		}
+		else {
+			int i = self.digits.size()-1;
+			for ( ; i >= 0 ; i--) {
+				if ( self.digits.at(i) < other.digits.at(i) ) {
+					return true;
+				}
+				else if( self.digits.at(i) > other.digits.at(i) ) {
+					return false;
+				}
+			}
+		}
 	}
 }
 
 bool operator<(const InfInt& self, const InfInt& other) {
-	if ( !operator>(self, other) && !operator>(self, other) ) {
+	if ( !operator>(self, other) && !operator==(self, other) ) {
 		return true;
 	}
 
@@ -125,7 +157,7 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 		}
 		ret.thesign = self.thesign;
 	}else{
-		
+
 	}
 
 	return ret;
@@ -133,14 +165,15 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 
 InfInt operator-(const InfInt& self, const InfInt& other) {
 
-	
+
 	int carry = 0;
+	InfInt self2(self);
+	InfInt other2(other);
 	InfInt ret;
-	
+
 	ret.digits.clear();
-	if(self>other){
-		// It operates only first number is larger than second num.
-		if(self.thesign==other.thesign){
+	if(self.thesign==other.thesign){
+		if(self.thesign==true&&self>other){
 			for ( int i = 0; i < self.digits.size() || i < other.digits.size() || carry == 1; i++ ) {
 				int result = 0;
 				if ( i < self.digits.size() ) {
@@ -149,19 +182,16 @@ InfInt operator-(const InfInt& self, const InfInt& other) {
 				if ( i < other.digits.size() ) {
 					result -= (other.digits.at(i) - ASCII_POSITION);
 				}
-				
 				result += carry;
 				carry = result<0?-1:0;
 				
 				if(result<0){
 					result+=10;
 				}
-				
 				ret.digits += (unsigned)result + ASCII_POSITION;
 			}
-		}
-	}else{
-		if(self.thesign==other.thesign){
+			
+		}else{
 			for ( int i = 0; i < self.digits.size() || i < other.digits.size() || carry == 1; i++ ) {
 				int result = 0;
 				if ( i < other.digits.size() ) {
@@ -181,26 +211,57 @@ InfInt operator-(const InfInt& self, const InfInt& other) {
 				ret.digits += (unsigned)result + ASCII_POSITION;
 			}
 		}
-		ret.thesign=false;
+		if(self.thesign==true&&self<other){
+			ret.thesign=false;
+		}
+		if(self.thesign==false){
+			ret.thesign=true;
+		}
+	}else{
+		
+		for ( int i = 0; i < self.digits.size() || i < other.digits.size() || carry == 1; i++ ) {
+			int result = 0;
+			if ( i < other.digits.size() ) {
+				result += (other.digits.at(i) - ASCII_POSITION);
+			}
+			if ( i < self.digits.size() ) {
+				result += (self.digits.at(i) - ASCII_POSITION);
+			}
+			result += carry;
+			
+			if ( result >= 10 ) {
+				ret.digits += result % 10 + ASCII_POSITION;
+				carry = 1;
+			} else {
+				ret.digits += result + ASCII_POSITION;
+				carry = 0;
+			}
+		}
+		ret.thesign = self.thesign;
 	}
-	
+
 	return ret;
 
 }
 
 InfInt operator*(const InfInt& self, const InfInt& other) {
-	InfInt ret;
+	InfInt ret, tempVal(self);
+	if(self.digits == ret.digits ||other.digits == ret.digits){
+		return ret;
+	}
+
 	if(self.thesign == other.thesign){
 		ret.thesign = true;
 	}else{
 		ret.thesign = false;
 	}
-
+	tempVal.thesign = ret.thesign;
+		
 	for(int i=0; i < other.digits.length(); i++){
 		InfInt temp;
 		temp.thesign = ret.thesign;
 		for(char j='0'; j < other.digits[i]; j++){
-			temp = temp + self;
+			temp = temp + tempVal;
 		}
 		for(int k = 0; k < i; k++){
 			temp.digits = '0' + temp.digits;
@@ -238,7 +299,7 @@ InfInt operator/(const InfInt& self, const InfInt& other) {
 // friend InfInt InfInt::operator/(const InfInt& self, const InfInt& other); // not required
 
 InfInt InfInt::pow(const InfInt& exp) {
-	//exp¥¬ æÁºˆ∑Œ ∞°¡§. ¿Ωºˆ µÈæÓø¿∏È 0π›»Ø
+	//exp¬•¬¨ √¶√Å¬∫??ë≈??û¬∞¬°¬? ¬øŒ©¬∫? ¬µ√à√¶√ì√∏¬ø?è√?0??∫¬ª√?
 	InfInt temp(*this);
 
 	if( exp.digits.compare("0") < 0 ) {
