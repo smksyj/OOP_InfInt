@@ -289,6 +289,9 @@ InfInt operator-(const InfInt& self, const InfInt& other) {
 	if ( other.digits.compare("0") != 0 ) {
 		minus.thesign = false;
 	}
+	if ( other.thesign == false ) {
+		minus.thesign = true;
+	}
 	return self + minus;
 }
 
@@ -402,6 +405,7 @@ ostream& operator<<(ostream& out, const InfInt& self) {
 	if ( self.thesign == false ) {
 		out.put('-');
 		for ( int i = self.digits.size() - 1; i > -1; i-- ) {
+			/*
 			if ( self.digits.at(i) != '0' ) {
 				print = true;
 			}
@@ -409,9 +413,12 @@ ostream& operator<<(ostream& out, const InfInt& self) {
 			if ( print ) {
 				out.put(self.digits.at(i));
 			}
+			*/
+			out.put(self.digits.at(i));
 		}
 	} else {
 		for ( int i = self.digits.size() - 1; i > -1; i-- ) {
+			/*
 			if ( self.digits.at(i) != '0' ) {
 				print = true;
 			}
@@ -419,6 +426,8 @@ ostream& operator<<(ostream& out, const InfInt& self) {
 			if ( print ) {
 				out.put(self.digits.at(i));
 			}
+			*/
+			out.put(self.digits.at(i));
 		}
 	}
 	return out;
