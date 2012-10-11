@@ -4,11 +4,14 @@
 
 int main(int argc, char *argv[]) {
 
-	InfInt a("-40");
-	InfInt b("-30");
+	InfInt a("-1");
+	InfInt b("1");
+	for(int i=0;i<10;i++){
+		a=a+b;
+		
+		cout << a << endl;
 
-
-	cout << a + b << endl;
+	}
 
 
 	getchar();
