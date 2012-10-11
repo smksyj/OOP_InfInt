@@ -1,4 +1,5 @@
 #include "InfInt.h"
+#include "string"
 
 const int ASCII_POSITION = 48;
 
@@ -18,6 +19,10 @@ InfInt::InfInt(int value) {
 			this->digits += value % 10 + 48;
 		}
 		value /= 10;
+	}
+
+	if ( value == 0 ) {
+		this->digits += "0";
 	}
 }
 
@@ -62,7 +67,7 @@ InfInt::~InfInt() {
 
 InfInt& InfInt::operator=(const InfInt& value) { // assignment operator
 	this->digits = string(value.digits);
-
+	this->thesign = value.thesign;
 	return *this;
 }
 
@@ -131,129 +136,160 @@ bool operator<(const InfInt& self, const InfInt& other) {
 }
 
 InfInt operator+(const InfInt& self, const InfInt& other) {
-
 	int carry = 0;
 	InfInt ret;
-	InfInt self2(self);
-	InfInt other2(other);
 	ret.digits.clear();
+	int maxLength = self.digits.size() > other.digits.size() ? self.digits.size() : other.digits.size();
 
-	if(self.thesign==other.thesign){
-		for ( int i = 0; i < self.digits.size() || i < other.digits.size() || carry == 1; i++ ) {
-			int result = 0;
-			if ( i < other.digits.size() ) {
-				result += (other.digits.at(i) - ASCII_POSITION);
-			}
-			if ( i < self.digits.size() ) {
-				result += (self.digits.at(i) - ASCII_POSITION);
-			}
-			result += carry;
+	if ( self.thesign == other.thesign ) {
+		if ( self.thesign == true ) { // +, +
+			for ( int i = 0; i < maxLength || carry == 1; i++ ) {
+				int result = 0;
 
-			if ( result >= 10 ) {
-				ret.digits += result % 10 + ASCII_POSITION;
-				carry = 1;
-			} else {
+				if ( self.digits.size() > i ) {
+					result += (self.digits.at(i) - ASCII_POSITION);
+				}
+				if ( other.digits.size() > i ) {
+					result +=  + (other.digits.at(i) - ASCII_POSITION);
+				}
+				result += carry;
+
+				if ( result >= 10 ) {
+					result -= 10;
+					carry = 1;
+				} else {
+					carry = 0;
+				}
+
+				ret.digits += result + 48;
+			}
+
+		} else { // -, -
+			for ( int i = 0; i < maxLength || carry == 1; i++ ) {
+				int result = 0;
+
+				if ( self.digits.size() > i ) {
+					result += (self.digits.at(i) - ASCII_POSITION);
+				}
+				if ( other.digits.size() > i ) {
+					result +=  + (other.digits.at(i) - ASCII_POSITION);
+				}
+				result += carry;
+
+				if ( result >= 10 ) {
+					result -= 10;
+					carry = 1;
+				} else {
+					carry = 0;
+				}
+
 				ret.digits += result + ASCII_POSITION;
-				carry = 0;
 			}
+
+			ret.thesign = false;
+
 		}
-		ret.thesign = self.thesign;
-	}else{
-		if(self2.thesign==true){
-			self2.thesign=false;
-			ret=self2-other2;
-		}else{
-			other2.thesign=false;
-			ret=self2-other2;
-			ret.thesign=false;
+	} else { // self.thesign != other.thesign
+//		if ( self.thesign == true ) { // +, -
+
+			if ( self.digits.size() > other.digits.size() ) { // ±æÀÌ°¡ self°¡ ´õ Å¬ °æ¿ì -> self¿¡¼­ »©±â
+			selfIsBigger:
+				for ( int i = 0; i < maxLength; i++ ) {
+					int result = 0;
+
+					if ( self.digits.size() > i ) {
+						result += (self.digits.at(i) - ASCII_POSITION) - carry;
+					}
+					if ( other.digits.size() > i ) {
+						result -= (other.digits.at(i) - ASCII_POSITION);
+					}
+
+					if ( result < 0 ) {
+						result = 10 + result;
+						carry = 1;
+					} else {
+						carry = 0;
+					}
+
+					ret.digits += result + ASCII_POSITION;
+				}
+
+				for ( int i = ret.digits.size() - 1; i >= 0; i-- ) {
+					if ( ret.digits.at(i) == '0' ) {
+						ret.digits.pop_back();
+					} else {
+						break;
+					}
+				}
+				ret.thesign = self.thesign;
+				if ( ret.digits.compare("0") == 0 ) {
+					ret.thesign = true;
+				}
+
+			} else if ( self.digits.size() < other.digits.size() ) { // ±æÀÌ°¡ self°¡ ´õ ÀÛÀ» °æ¿ì -> other¿¡¼­ »©±â
+			selfIsSmaller:
+				for ( int i = 0; i < maxLength; i++ ) {
+					int result = 0;
+
+					if ( other.digits.size() > i ) {
+						result += (other.digits.at(i) - ASCII_POSITION) - carry;
+					}
+					if ( self.digits.size() > i ) {
+						result -= (self.digits.at(i) - ASCII_POSITION);
+					}
+
+					if ( result < 0 ) {
+						result = 10 + result;
+						carry = 1;
+					} else {
+						carry = 0;
+					}
+
+					ret.digits += result + ASCII_POSITION;
+				}
+				
+				for ( int i = ret.digits.size() - 1; i >= 0; i-- ) {
+					if ( ret.digits.at(i) == '0' ) {
+						ret.digits.pop_back();
+					} else {
+						break;
+					}
+				}
+				ret.thesign = other.thesign;
+				if ( ret.digits.compare("0") == 0 ) {
+					ret.thesign = true;
+				}
+
+
+			} else { // ±æÀÌ°¡ °°À» °æ¿ì
+				for ( int i = self.digits.size() - 1; i >= 0; i-- ) {
+					if ( self.digits.at(i) - other.digits.at(i) > 0 ) {
+						goto selfIsBigger;
+					} else if ( self.digits.at(i) - other.digits.at(i) < 0 ) {
+						goto selfIsSmaller;
+					} else {
+						return InfInt("0");
+					}
+				}
+			}
+
+			/*
+		} else { // -, +
+			
 		}
+		*/
 	}
+
 
 	return ret;
 }
 
 InfInt operator-(const InfInt& self, const InfInt& other) {
-
-
-	int carry = 0;
-	InfInt self2(self);
-	InfInt other2(other);
-	InfInt ret;
-
-	ret.digits.clear();
-	if(self.thesign==other.thesign){
-		if((self.thesign==true&&self>other)||(self.thesign==false&&self<other)){
-			for ( int i = 0; i < self.digits.size() || i < other.digits.size() || carry == 1; i++ ) {
-				int result = 0;
-				if ( i < self.digits.size() ) {
-					result += (self.digits.at(i) - ASCII_POSITION);
-				}
-				if ( i < other.digits.size() ) {
-					result -= (other.digits.at(i) - ASCII_POSITION);
-				}
-				result += carry;
-				carry = result<0?-1:0;
-				
-				if(result<0){
-					result+=10;
-				}
-				ret.digits += (unsigned)result + ASCII_POSITION;
-			}
-			if(self.thesign==false){
-				ret.thesign=false;
-			}
-		}else{
-			for ( int i = 0; i < self.digits.size() || i < other.digits.size() || carry == 1; i++ ) {
-				int result = 0;
-				if ( i < other.digits.size() ) {
-					result += (other.digits.at(i) - ASCII_POSITION);
-				}
-				if ( i < self.digits.size() ) {
-					result -= (self.digits.at(i) - ASCII_POSITION);
-				}
-				
-				result += carry;
-				carry = result<0?-1:0;
-				
-				if(result<0){
-					result+=10;
-				}
-				
-				ret.digits += (unsigned)result + ASCII_POSITION;
-			}
-			if(self.thesign==false){
-				ret.thesign=true;
-			}
-		}
-		if(self.thesign==true&&self<other){
-			ret.thesign=false;
-		}
-		
-	}else{
-		
-		for ( int i = 0; i < self.digits.size() || i < other.digits.size() || carry == 1; i++ ) {
-			int result = 0;
-			if ( i < other.digits.size() ) {
-				result += (other.digits.at(i) - ASCII_POSITION);
-			}
-			if ( i < self.digits.size() ) {
-				result += (self.digits.at(i) - ASCII_POSITION);
-			}
-			result += carry;
-			
-			if ( result >= 10 ) {
-				ret.digits += result % 10 + ASCII_POSITION;
-				carry = 1;
-			} else {
-				ret.digits += result + ASCII_POSITION;
-				carry = 0;
-			}
-		}
-		ret.thesign = self.thesign;
+	InfInt minus(other);
+	if ( other.digits.compare("0") != 0 ) {
+		minus.thesign = false;
 	}
-
-	return ret;
-
+	return self + minus;
 }
 
 InfInt operator*(const InfInt& self, const InfInt& other) {
@@ -311,7 +347,7 @@ InfInt operator/(const InfInt& self, const InfInt& other) {
 // friend InfInt InfInt::operator/(const InfInt& self, const InfInt& other); // not required
 
 InfInt InfInt::pow(const InfInt& exp) {
-	//expÂ¬â€¢Â¬Â¨ âˆšÂ¶âˆšÃ…Â¬âˆ«??Ã«â‰ˆ??Ã»Â¬âˆÂ¬Â°Â¬? Â¬Ã¸Å’Â©Â¬âˆ«? Â¬ÂµâˆšÃ âˆšÂ¶âˆšÃ¬âˆšâˆÂ¬Ã¸?Ã¨âˆš?0??âˆ«Â¬Âªâˆš?
+	//exp is positive number
 	InfInt temp(*this);
 
 	if( exp.digits.compare("0") < 0 ) {
@@ -343,25 +379,46 @@ InfInt InfInt::root(const InfInt& num) {
 	InfInt one(1);
 	if(this->thesign!=true||num<one)
 		return ret;
-	ret=ret+one;
-	for(;ret.pow(num)+one<me;ret=ret+one){
+	for(ret=one;ret.pow(num)<me+one;ret=ret+one){
 #ifdef DEBUG
-		cout<<"ret:"<<ret<<" ret.pow(num):"<<ret.pow(num)<<" ret.pow(num+one<me:"<<(ret.pow(num)+one<me)<<endl<<"Press any key..."<<endl;
+		cout<<"ret:"<<ret<<" ret.pow(num):"<<ret.pow(num)<<" ret.pow(num)<me:"<<(ret.pow(num)<me)<<endl<<"Press any key..."<<endl;
 		getchar();
 #endif
 	}
+	ret=ret-one;
+#ifdef DEBUG
+	cout<<"root() debugging finished. Will return "<<ret<<endl;
+#endif
 	return ret;
 }
 
 ostream& operator<<(ostream& out, const InfInt& self) {
+	bool print = false;
+	if ( self.digits.compare("0") == 0 ) {
+		out.put('0');
+		return out;
+	}
+
 	if ( self.thesign == false ) {
 		out.put('-');
 		for ( int i = self.digits.size() - 1; i > -1; i-- ) {
-			out.put(self.digits.at(i));
+			if ( self.digits.at(i) != '0' ) {
+				print = true;
+			}
+
+			if ( print ) {
+				out.put(self.digits.at(i));
+			}
 		}
 	} else {
 		for ( int i = self.digits.size() - 1; i > -1; i-- ) {
-			out.put(self.digits.at(i));
+			if ( self.digits.at(i) != '0' ) {
+				print = true;
+			}
+
+			if ( print ) {
+				out.put(self.digits.at(i));
+			}
 		}
 	}
 	return out;
