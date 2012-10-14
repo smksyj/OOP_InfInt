@@ -17,11 +17,11 @@ Parser::~Parser(void)
 }
 
 
-vector<string> Parser::split(string value, char delemeter=' ') {
+vector<string> Parser::split(string value, char delimiter=' ') {
 	vector<string> ret;
 
 	for ( int i = 0, j = 0; i < (int)value.size(); i++ ) {
-		if ( value.at(i) == delemeter ) {
+		if ( value.at(i) == delimiter ) {
 			ret.push_back(value.substr(j, i - j));
 			j = i;
 			j++;
@@ -31,14 +31,4 @@ vector<string> Parser::split(string value, char delemeter=' ') {
 	}
 
 	return ret;
-}
-
-bool Parser::sameToDelemeter(char c) {
-	for ( int i = 0; i < operators.size(); i++ ) {
-		if ( operators.at(i) == c ) {
-			return true;
-		}
-	}
-
-	return false;
 }
