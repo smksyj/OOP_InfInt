@@ -8,7 +8,6 @@ class Parser
 {
 private:
 	vector<char> operators;
-	bool sameToDelemeter(char c);
 public:
 	Parser(void);
 	~Parser(void);
