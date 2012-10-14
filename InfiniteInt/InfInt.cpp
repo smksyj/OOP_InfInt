@@ -1,5 +1,4 @@
 #include "InfInt.h"
-#include "string"
 
 const int ASCII_POSITION = 48;
 
@@ -20,10 +19,14 @@ InfInt::InfInt(int value) {
 		}
 		value /= 10;
 	}
+
+	if ( value == 0 ) {
+		this->digits += "0";
+	}
 }
 
-InfInt::InfInt(const char* value) {
-	int len = strlen(value) - 1;
+InfInt::InfInt(const string value) {
+	int len = value.size() - 1;
 
 	if ( value[0] == '-' ) {
 		this->thesign = false;
@@ -47,7 +50,7 @@ InfInt::InfInt(const InfInt& value) { // copy constructor
 	this->digits = "";
 	this->thesign = value.thesign;
 
-	for ( int i = 0; i < (unsigned int)value.digits.size(); i++ ) {
+	for ( int i = 0; i < (int)value.digits.size(); i++ ) {
 		this->digits += value.digits.at(i);
 	}
 }
@@ -142,10 +145,10 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 			for ( int i = 0; i < maxLength || carry == 1; i++ ) {
 				int result = 0;
 
-				if ( self.digits.size() > i ) {
+				if ( (int)self.digits.size() > i ) {
 					result += (self.digits.at(i) - ASCII_POSITION);
 				}
-				if ( other.digits.size() > i ) {
+				if ( (int)other.digits.size() > i ) {
 					result +=  + (other.digits.at(i) - ASCII_POSITION);
 				}
 				result += carry;
@@ -164,10 +167,10 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 			for ( int i = 0; i < maxLength || carry == 1; i++ ) {
 				int result = 0;
 
-				if ( self.digits.size() > i ) {
+				if ( (int)self.digits.size() > i ) {
 					result += (self.digits.at(i) - ASCII_POSITION);
 				}
-				if ( other.digits.size() > i ) {
+				if ( (int)other.digits.size() > i ) {
 					result +=  + (other.digits.at(i) - ASCII_POSITION);
 				}
 				result += carry;
@@ -193,10 +196,10 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 				for ( int i = 0; i < maxLength; i++ ) {
 					int result = 0;
 
-					if ( self.digits.size() > i ) {
+					if ( (int)self.digits.size() > i ) {
 						result += (self.digits.at(i) - ASCII_POSITION) - carry;
 					}
-					if ( other.digits.size() > i ) {
+					if ( (int)other.digits.size() > i ) {
 						result -= (other.digits.at(i) - ASCII_POSITION);
 					}
 
@@ -210,6 +213,13 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 					ret.digits += result + ASCII_POSITION;
 				}
 
+				for ( int i = ret.digits.size() - 1; i >= 0; i-- ) {
+					if ( ret.digits.at(i) == '0' ) {
+						ret.digits.pop_back();
+					} else {
+						break;
+					}
+				}
 				ret.thesign = self.thesign;
 				if ( ret.digits.compare("0") == 0 ) {
 					ret.thesign = true;
@@ -220,10 +230,10 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 				for ( int i = 0; i < maxLength; i++ ) {
 					int result = 0;
 
-					if ( other.digits.size() > i ) {
+					if ( (int)other.digits.size() > i ) {
 						result += (other.digits.at(i) - ASCII_POSITION) - carry;
 					}
-					if ( self.digits.size() > i ) {
+					if ( (int)self.digits.size() > i ) {
 						result -= (self.digits.at(i) - ASCII_POSITION);
 					}
 
@@ -236,7 +246,14 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 
 					ret.digits += result + ASCII_POSITION;
 				}
-
+				
+				for ( int i = ret.digits.size() - 1; i >= 0; i-- ) {
+					if ( ret.digits.at(i) == '0' ) {
+						ret.digits.pop_back();
+					} else {
+						break;
+					}
+				}
 				ret.thesign = other.thesign;
 				if ( ret.digits.compare("0") == 0 ) {
 					ret.thesign = true;
@@ -271,6 +288,9 @@ InfInt operator-(const InfInt& self, const InfInt& other) {
 	if ( other.digits.compare("0") != 0 ) {
 		minus.thesign = false;
 	}
+	if ( other.thesign == false ) {
+		minus.thesign = true;
+	}
 	return self + minus;
 }
 
@@ -287,7 +307,7 @@ InfInt operator*(const InfInt& self, const InfInt& other) {
 	}
 	tempVal.thesign = ret.thesign;
 		
-	for(int i=0; i < other.digits.length(); i++){
+	for(int i=0; i < (int)other.digits.length(); i++){
 		InfInt temp;
 		temp.thesign = ret.thesign;
 		for(char j='0'; j < other.digits[i]; j++){
@@ -314,13 +334,18 @@ InfInt operator/(const InfInt& self, const InfInt& other) {
 
 	InfInt quo;
 
-	InfInt dummy('1');
+	InfInt dummy("1");
+	InfInt dummy2("-1");
 
 	while(Int1.thesign== true){
-		Int1= Int1- Int2;
+ 		Int1= Int1- Int2;
 		if(Int1.thesign== true){
 			quo= quo+ dummy;
 		}
+	}
+
+	if(sign_result== false){
+		quo= quo* dummy2;
 	}
 
 	return quo;
@@ -375,7 +400,6 @@ InfInt InfInt::root(const InfInt& num) {
 }
 
 ostream& operator<<(ostream& out, const InfInt& self) {
-	bool print = false;
 	if ( self.digits.compare("0") == 0 ) {
 		out.put('0');
 		return out;
@@ -384,6 +408,7 @@ ostream& operator<<(ostream& out, const InfInt& self) {
 	if ( self.thesign == false ) {
 		out.put('-');
 		for ( int i = self.digits.size() - 1; i > -1; i-- ) {
+			/*
 			if ( self.digits.at(i) != '0' ) {
 				print = true;
 			}
@@ -391,9 +416,12 @@ ostream& operator<<(ostream& out, const InfInt& self) {
 			if ( print ) {
 				out.put(self.digits.at(i));
 			}
+			*/
+			out.put(self.digits.at(i));
 		}
 	} else {
 		for ( int i = self.digits.size() - 1; i > -1; i-- ) {
+			/*
 			if ( self.digits.at(i) != '0' ) {
 				print = true;
 			}
@@ -401,6 +429,8 @@ ostream& operator<<(ostream& out, const InfInt& self) {
 			if ( print ) {
 				out.put(self.digits.at(i));
 			}
+			*/
+			out.put(self.digits.at(i));
 		}
 	}
 	return out;

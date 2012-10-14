@@ -1,6 +1,6 @@
 #ifndef INFINT_H_
 #include <iostream>
-#include <string.h>
+#include <string>
 
 using namespace std;
 
@@ -20,7 +20,7 @@ private :
 public :
     InfInt();               // assign 0 as a default value
     InfInt(int);
-    InfInt(const char* );
+    InfInt(const string);
     InfInt(const InfInt&); // copy constructor
     ~InfInt(); // destructor
 	
@@ -38,6 +38,7 @@ public :
     InfInt root(const InfInt& num=InfInt(2));
 
     friend ostream& operator<<(ostream& , const InfInt&);
+
     // friend istream& operator>>(istream& , InfInt&);    // not required
 };
 #endif

@@ -15,7 +15,7 @@ public:
 	Parser(void);
 	~Parser(void);
 	vector<string> split(string value, char delemeter);
-	vector<string> parsing(vector<string> parsed);
-	InfInt calc();
+	InfInt Operation(string expression);
 };
+
 #endif
