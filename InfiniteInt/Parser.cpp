@@ -119,6 +119,7 @@ InfInt Parser::Operation(string expression){
 		}
 	}
 
-	InfInt ret(temp[0].c_str());
-	return ret;
+	//InfInt ret(temp[0].c_str());
+	//return ret;
+	return InfVec[0];
 }
