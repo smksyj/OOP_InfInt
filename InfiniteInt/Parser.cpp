@@ -3,12 +3,7 @@
 
 Parser::Parser(void)
 {
-	this->operators.push_back('+');
-	this->operators.push_back('-');
-	this->operators.push_back('*');
-	this->operators.push_back('/');
-	this->operators.push_back('^');
-	this->operators.push_back('v');
+	this->RPL=false;
 }
 
 
@@ -30,5 +25,15 @@ vector<string> Parser::split(string value, char delimiter=' ') {
 		}
 	}
 
+	return ret;
+}
+
+vector<string> Parser::parsing(vector<string> parsed) {
+	vector<string> ret;
+	return ret;
+}
+
+InfInt Parser::calc() {
+	InfInt ret;
 	return ret;
 }
