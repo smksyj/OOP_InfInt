@@ -1,26 +1,16 @@
 #include <iostream>
 
-#include "InfInt.h"
+#include "Parser.h"
 
 int main(int argc, char *argv[]) {
 
-	InfInt a("-1");
-	InfInt b("1");
-	for(int i=0;i<10;i++){
-		a=a+b;
-		
-		cout << a << endl;
+	string MyExpress= "263731 + 343263474 / ( 8 * ( 110 - 2563 ) )";
 
-	}
-	getchar();
-	/*
-	string temp("asdf");
-	temp.insert(0, 'g', 1);
+	Parser MyParser;
 
-	cout << temp.c_str() << endl;
+	InfInt Result= MyParser.Operation(MyExpress);
 
-	getchar();
-	*/
+	cout<< Result << endl;
 
 	return 0;
 }

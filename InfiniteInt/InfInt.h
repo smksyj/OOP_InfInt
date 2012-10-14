@@ -38,6 +38,7 @@ public :
     InfInt root(const InfInt& num=InfInt(2));
 
     friend ostream& operator<<(ostream& , const InfInt&);
+
     // friend istream& operator>>(istream& , InfInt&);    // not required
 };
 #endif

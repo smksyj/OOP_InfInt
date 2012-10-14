@@ -335,13 +335,18 @@ InfInt operator/(const InfInt& self, const InfInt& other) {
 
 	InfInt quo;
 
-	InfInt dummy('1');
+	InfInt dummy("1");
+	InfInt dummy2("-1");
 
 	while(Int1.thesign== true){
-		Int1= Int1- Int2;
+ 		Int1= Int1- Int2;
 		if(Int1.thesign== true){
 			quo= quo+ dummy;
 		}
+	}
+
+	if(sign_result== false){
+		quo= quo* dummy2;
 	}
 
 	return quo;
