@@ -17,7 +17,7 @@ Parser::~Parser(void)
 }
 
 
-vector<string> Parser::split(string value, char delemeter) {
+vector<string> Parser::split(string value, char delemeter=' ') {
 	vector<string> ret;
 
 	for ( int i = 0, j = 0; i < (int)value.size(); i++ ) {
