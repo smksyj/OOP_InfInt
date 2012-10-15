@@ -215,7 +215,8 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 
 				for ( int i = ret.digits.size() - 1; i >= 0; i-- ) {
 					if ( ret.digits.at(i) == '0' ) {
-						ret.digits.pop_back();
+						ret.digits.erase(ret.digits.size()-1);
+						//ret.digits.pop_back();
 					} else {
 						break;
 					}
@@ -249,7 +250,8 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 				
 				for ( int i = ret.digits.size() - 1; i >= 0; i-- ) {
 					if ( ret.digits.at(i) == '0' ) {
-						ret.digits.pop_back();
+						ret.digits.erase(ret.digits.size()-1);
+						//ret.digits.pop_back();
 					} else {
 						break;
 					}
