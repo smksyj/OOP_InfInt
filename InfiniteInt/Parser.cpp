@@ -46,15 +46,18 @@ InfInt Parser::Operation(string expression){
 	vector<string> post;
 	vector<string> temp;
 
-	//string Plus("+"), Minus("-");
-	//string Mult("*"), Div("/");
-	//string Open("("), Clo(")");
+	const string Plus("+"), Minus("-"), Mult("*"), Div("/"),
+		Pow("^"), Root("v"),
+		Lparen("("), Rparen(")");
 
 	for(int i=0; i<(int)tokens.size(); i++){
-		if(tokens[i].at(0)== '*'|| tokens[i].at(0)== '/'){
+#ifdef DEBUG
+		cout<<"token["<<i<<"] is debugging: "<<tokens[i]<<endl;
+#endif
+		if(tokens[i].compare(Mult)|| tokens[i].compare(Div)){
 			temp.push_back(tokens[i]);
 		}
-		else if(tokens[i].at(0)== '+'|| tokens[i].at(0)== '-'){
+		else if(tokens[i].compare(Plus)|| tokens[i].compare(Minus)){
 			if(temp.size()!= 0 && (temp.begin()->at(0)== '*'|| temp.begin()->at(0)== '/')){
 				for(int k=temp.size(); k>0; k--){
 					post.push_back(temp.back());
@@ -63,11 +66,11 @@ InfInt Parser::Operation(string expression){
 			}
 			temp.push_back(tokens[i]);
 		}
-		else if(tokens[i].at(0)== '('){
+		else if(tokens[i].compare(Lparen)){
 			temp.push_back(tokens[i]);
 		}
-		else if(tokens[i].at(0)== ')'){
-			while(temp.back().at(0)!= '('){
+		else if(tokens[i].compare(Rparen)){
+			while(temp.back().compare(Lparen)){
 				post.push_back(temp.back());
 				temp.pop_back();
 			}
@@ -78,7 +81,7 @@ InfInt Parser::Operation(string expression){
 		}
 	}
 	for(int k=temp.size(); k>0; k--){
-		if(temp.back().at(0)!= '('|| temp.back().at(0)!= ')')
+		if(temp.back().compare(Lparen)|| temp.back().compare(Rparen))
 			post.push_back(temp.back());
 		temp.pop_back();
 	}
@@ -95,7 +98,10 @@ InfInt Parser::Operation(string expression){
 	vector<InfInt> InfVec;
 
 	for(int i= 0; i< (int)post.size(); i++){
-		if(post[i].at(0)== '+'|| post[i].at(0)== '-'|| post[i].at(0)== '*'|| post[i].at(0)== '/'){
+#ifdef DEBUG
+		cout<<"post["<<i<<"] is debugging: "<<post[i]<<endl;
+#endif
+		if(post[i].compare(Plus)|| post[i].compare(Minus)|| post[i].compare(Mult)|| post[i].compare(Div)){
 			InfInt A(InfVec.back());
 			InfVec.pop_back();
 			InfInt B(InfVec.back());
@@ -117,7 +123,7 @@ InfInt Parser::Operation(string expression){
 		}
 
 		else{
-			InfInt Temp(post[i].c_str());
+			InfInt Temp(post[i]);
 			InfVec.push_back(Temp);
 		}
 	}
