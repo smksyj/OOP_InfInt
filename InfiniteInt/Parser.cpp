@@ -47,7 +47,7 @@ InfInt Parser::Operation(string expression){
 	vector<string> temp;
 
 	const string Plus("+"), Minus("-"), Mult("*"), Div("/"),
-		Pow("^"), Root("v"),
+		Pow("^"), Root("root"),
 		Lparen("("), Rparen(")");
 
 	for(int i=0; i<(int)tokens.size(); i++){
@@ -58,8 +58,10 @@ InfInt Parser::Operation(string expression){
 			temp.push_back(tokens[i]);
 		}
 		else if(tokens[i].compare(Plus)==0|| tokens[i].compare(Minus)==0){
-			if(temp.size()!= 0 && (temp.begin()->at(0)== '*'|| temp.begin()->at(0)== '/')){
+			if(temp.size()!= 0 && (temp.begin()->compare(Mult)|| temp.begin()->compare(Div))){
 				for(int k=temp.size(); k>0; k--){
+					if(temp.back().compare(Lparen)==0)
+						continue;
 					post.push_back(temp.back());
 					temp.pop_back();
 				}
@@ -79,6 +81,14 @@ InfInt Parser::Operation(string expression){
 		else{
 			post.push_back(tokens[i]);
 		}
+#ifdef DEBUG
+		cout<<"post is"<<endl;
+		for(vector<string>::iterator i=post.begin();i!=post.end();++i)
+			cout<<" => "<<*i<<endl;
+		cout<<"temp is"<<endl;
+		for(vector<string>::iterator i=temp.begin();i!=temp.end();++i)
+			cout<<" => "<<*i<<endl;
+#endif
 	}
 	for(int k=temp.size(); k>0; k--){
 		if(temp.back().compare(Lparen)!=0|| temp.back().compare(Rparen)!=0)
