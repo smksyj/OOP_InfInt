@@ -90,14 +90,12 @@ InfInt Operator::Operation(vector<string> tokens) {
 
 InfInt Operator::Operation(vector<string> tokens){
 #ifdef DEBUG
-	cout<<"Parser::Operation debug started..."<<endl
-		<<"Expression is "<<endl
-		<<"  => "<<expression<<endl;
+	cout<<"Parser::Operation debug started..."<<endl;
 #endif
 #ifdef DEBUG
-	cout<<"Splitting..."<<endl;
+//	cout<<"Splitting..."<<endl;
 #endif
-	//vector<string> tokens= split(expression, ' ');
+//	vector<string> tokens= split(expression, ' ');
 #ifdef DEBUG
 	cout<<"Tokens are "<<endl;
 	for(vector<string>::iterator i=tokens.begin();i!=tokens.end();++i)
