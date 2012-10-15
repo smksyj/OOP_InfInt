@@ -30,7 +30,7 @@ vector<string> Parser::split(string value, char delimiter=' ') {
 InfInt Parser::Operation(string expression){
 #ifdef DEBUG
 	cout<<"Parser::Operation debug started..."<<endl
-		<<"The expression is "<<endl
+		<<"Expression is "<<endl
 		<<"  => "<<expression<<endl;
 #endif
 #ifdef DEBUG
@@ -46,15 +46,18 @@ InfInt Parser::Operation(string expression){
 	vector<string> post;
 	vector<string> temp;
 
-	//string Plus("+"), Minus("-");
-	//string Mult("*"), Div("/");
-	//string Open("("), Clo(")");
+	const string Plus("+"), Minus("-"), Mult("*"), Div("/"),
+		Pow("^"), Root("v"),
+		Lparen("("), Rparen(")");
 
 	for(int i=0; i<(int)tokens.size(); i++){
-		if(tokens[i].at(0)== '*'|| tokens[i].at(0)== '/'){
+#ifdef DEBUG
+		cout<<"tokens["<<i<<"] is debugging: "<<tokens[i]<<endl;
+#endif
+		if(tokens[i].compare(Mult)==0|| tokens[i].compare(Div)==0){
 			temp.push_back(tokens[i]);
 		}
-		else if(tokens[i].at(0)== '+'|| tokens[i].at(0)== '-'){
+		else if(tokens[i].compare(Plus)==0|| tokens[i].compare(Minus)==0){
 			if(temp.size()!= 0 && (temp.begin()->at(0)== '*'|| temp.begin()->at(0)== '/')){
 				for(int k=temp.size(); k>0; k--){
 					post.push_back(temp.back());
@@ -63,11 +66,11 @@ InfInt Parser::Operation(string expression){
 			}
 			temp.push_back(tokens[i]);
 		}
-		else if(tokens[i].at(0)== '('){
+		else if(tokens[i].compare(Lparen)==0){
 			temp.push_back(tokens[i]);
 		}
-		else if(tokens[i].at(0)== ')'){
-			while(temp.back().at(0)!= '('){
+		else if(tokens[i].compare(Rparen)==0){
+			while(temp.back().compare(Lparen)!=0){
 				post.push_back(temp.back());
 				temp.pop_back();
 			}
@@ -78,7 +81,7 @@ InfInt Parser::Operation(string expression){
 		}
 	}
 	for(int k=temp.size(); k>0; k--){
-		if(temp.back().at(0)!= '('|| temp.back().at(0)!= ')')
+		if(temp.back().compare(Lparen)!=0|| temp.back().compare(Rparen)!=0)
 			post.push_back(temp.back());
 		temp.pop_back();
 	}
@@ -95,29 +98,32 @@ InfInt Parser::Operation(string expression){
 	vector<InfInt> InfVec;
 
 	for(int i= 0; i< (int)post.size(); i++){
-		if(post[i].at(0)== '+'|| post[i].at(0)== '-'|| post[i].at(0)== '*'|| post[i].at(0)== '/'){
+#ifdef DEBUG
+		cout<<"post["<<i<<"] is debugging: "<<post[i]<<endl;
+#endif
+		if(post[i].compare(Plus)==0|| post[i].compare(Minus)==0|| post[i].compare(Mult)==0|| post[i].compare(Div)==0){
 			InfInt A(InfVec.back());
 			InfVec.pop_back();
 			InfInt B(InfVec.back());
 			InfVec.pop_back();
 			InfInt C;
-			if(post[i].at(0)== '+'){
+			if(post[i].compare(Plus)==0){
 				C= B+A;
 			}
-			else if(post[i].at(0)== '-'){
+			else if(post[i].compare(Minus)==0){
 				C= B-A;
 			}
-			else if(post[i].at(0)== '*'){
+		else if(post[i].compare(Mult)==0){
 				C= B*A;
 			}
-			else if(post[i].at(0)== '/'){
+		else if(post[i].compare(Div)==0){
 				C= B/A;
 			}
 			InfVec.push_back(C);
 		}
 
 		else{
-			InfInt Temp(post[i].c_str());
+			InfInt Temp(post[i]);
 			InfVec.push_back(Temp);
 		}
 	}
