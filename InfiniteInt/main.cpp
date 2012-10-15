@@ -11,5 +11,7 @@ int main(int argc, char *argv[]) {
 
 	Calculator *calc = new Calculator(new FileParser("test.txt"));
 
+	calc->run();
+
 	return 0;
 }
