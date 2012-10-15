@@ -6,10 +6,8 @@
 #include "FileParser.h"
 
 int main(int argc, char *argv[]) {
-
-	//string MyExpress= "263731 + 343263474 / ( 8 * ( 110 - 2563 ) )";
-
-	Calculator *calc = new Calculator(new FileParser("test.txt"));
+	Calculator *calc = new Calculator(new ConsoleParser());
+	//Calculator *calc = new Calculator(new FileParser("test.txt"));
 
 	calc->run();
 
