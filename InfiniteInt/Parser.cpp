@@ -38,7 +38,7 @@ InfInt Parser::Operation(string expression){
 	//string Mult("*"), Div("/");
 	//string Open("("), Clo(")");
 
-	for(int i=0; i<tokens.size(); i++){
+	for(int i=0; i<(int)tokens.size(); i++){
 		if(tokens[i].at(0)== '*'|| tokens[i].at(0)== '/'){
 			temp.push_back(tokens[i]);
 		}
@@ -75,7 +75,7 @@ InfInt Parser::Operation(string expression){
 
 	vector<InfInt> InfVec;
 
-	for(int i= 0; i< post.size(); i++){
+	for(int i= 0; i< (int)post.size(); i++){
 		if(post[i].at(0)== '+'|| post[i].at(0)== '-'|| post[i].at(0)== '*'|| post[i].at(0)== '/'){
 			InfInt A(InfVec.back());
 			InfVec.pop_back();
@@ -103,6 +103,7 @@ InfInt Parser::Operation(string expression){
 		}
 	}
 
-	InfInt ret(temp[0].c_str());
-	return ret;
+	//InfInt ret(temp[0].c_str());
+	//return ret;
+	return InfVec[0];
 }
