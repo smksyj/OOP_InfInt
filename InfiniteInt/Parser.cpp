@@ -3,12 +3,6 @@
 
 Parser::Parser(void)
 {
-	this->operators.push_back('+');
-	this->operators.push_back('-');
-	this->operators.push_back('*');
-	this->operators.push_back('/');
-	this->operators.push_back('^');
-	this->operators.push_back('v');
 }
 
 
@@ -17,11 +11,11 @@ Parser::~Parser(void)
 }
 
 
-vector<string> Parser::split(string value, char delemeter) {
+vector<string> Parser::split(string value, char delimiter=' ') {
 	vector<string> ret;
 
 	for ( int i = 0, j = 0; i < (int)value.size(); i++ ) {
-		if ( value.at(i) == delemeter ) {
+		if ( value.at(i) == delimiter ) {
 			ret.push_back(value.substr(j, i - j));
 			j = i;
 			j++;
@@ -31,16 +25,6 @@ vector<string> Parser::split(string value, char delemeter) {
 	}
 
 	return ret;
-}
-
-bool Parser::sameToDelemeter(char c) {
-	for ( int i = 0; i < operators.size(); i++ ) {
-		if ( operators.at(i) == c ) {
-			return true;
-		}
-	}
-
-	return false;
 }
 
 InfInt Parser::Operation(string expression){
@@ -54,7 +38,7 @@ InfInt Parser::Operation(string expression){
 	//string Mult("*"), Div("/");
 	//string Open("("), Clo(")");
 
-	for(int i=0; i<tokens.size(); i++){
+	for(int i=0; i<(int)tokens.size(); i++){
 		if(tokens[i].at(0)== '*'|| tokens[i].at(0)== '/'){
 			temp.push_back(tokens[i]);
 		}
@@ -91,7 +75,7 @@ InfInt Parser::Operation(string expression){
 
 	vector<InfInt> InfVec;
 
-	for(int i= 0; i< post.size(); i++){
+	for(int i= 0; i< (int)post.size(); i++){
 		if(post[i].at(0)== '+'|| post[i].at(0)== '-'|| post[i].at(0)== '*'|| post[i].at(0)== '/'){
 			InfInt A(InfVec.back());
 			InfVec.pop_back();

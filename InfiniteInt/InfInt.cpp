@@ -1,5 +1,4 @@
 #include "InfInt.h"
-#include "string"
 
 const int ASCII_POSITION = 48;
 
@@ -26,8 +25,8 @@ InfInt::InfInt(int value) {
 	}
 }
 
-InfInt::InfInt(const char* value) {
-	int len = strlen(value) - 1;
+InfInt::InfInt(const string value) {
+	int len = value.size() - 1;
 
 	if ( value[0] == '-' ) {
 		this->thesign = false;
@@ -51,7 +50,7 @@ InfInt::InfInt(const InfInt& value) { // copy constructor
 	this->digits = "";
 	this->thesign = value.thesign;
 
-	for ( int i = 0; i < (unsigned int)value.digits.size(); i++ ) {
+	for ( int i = 0; i < (int)value.digits.size(); i++ ) {
 		this->digits += value.digits.at(i);
 	}
 }
@@ -146,10 +145,10 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 			for ( int i = 0; i < maxLength || carry == 1; i++ ) {
 				int result = 0;
 
-				if ( self.digits.size() > i ) {
+				if ( (int)self.digits.size() > i ) {
 					result += (self.digits.at(i) - ASCII_POSITION);
 				}
-				if ( other.digits.size() > i ) {
+				if ( (int)other.digits.size() > i ) {
 					result +=  + (other.digits.at(i) - ASCII_POSITION);
 				}
 				result += carry;
@@ -168,10 +167,10 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 			for ( int i = 0; i < maxLength || carry == 1; i++ ) {
 				int result = 0;
 
-				if ( self.digits.size() > i ) {
+				if ( (int)self.digits.size() > i ) {
 					result += (self.digits.at(i) - ASCII_POSITION);
 				}
-				if ( other.digits.size() > i ) {
+				if ( (int)other.digits.size() > i ) {
 					result +=  + (other.digits.at(i) - ASCII_POSITION);
 				}
 				result += carry;
@@ -197,10 +196,10 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 				for ( int i = 0; i < maxLength; i++ ) {
 					int result = 0;
 
-					if ( self.digits.size() > i ) {
+					if ( (int)self.digits.size() > i ) {
 						result += (self.digits.at(i) - ASCII_POSITION) - carry;
 					}
-					if ( other.digits.size() > i ) {
+					if ( (int)other.digits.size() > i ) {
 						result -= (other.digits.at(i) - ASCII_POSITION);
 					}
 
@@ -231,10 +230,10 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 				for ( int i = 0; i < maxLength; i++ ) {
 					int result = 0;
 
-					if ( other.digits.size() > i ) {
+					if ( (int)other.digits.size() > i ) {
 						result += (other.digits.at(i) - ASCII_POSITION) - carry;
 					}
-					if ( self.digits.size() > i ) {
+					if ( (int)self.digits.size() > i ) {
 						result -= (self.digits.at(i) - ASCII_POSITION);
 					}
 
@@ -308,7 +307,7 @@ InfInt operator*(const InfInt& self, const InfInt& other) {
 	}
 	tempVal.thesign = ret.thesign;
 		
-	for(int i=0; i < other.digits.length(); i++){
+	for(int i=0; i < (int)other.digits.length(); i++){
 		InfInt temp;
 		temp.thesign = ret.thesign;
 		for(char j='0'; j < other.digits[i]; j++){
@@ -401,7 +400,6 @@ InfInt InfInt::root(const InfInt& num) {
 }
 
 ostream& operator<<(ostream& out, const InfInt& self) {
-	bool print = false;
 	if ( self.digits.compare("0") == 0 ) {
 		out.put('0');
 		return out;
