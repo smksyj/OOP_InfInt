@@ -1,21 +1,17 @@
 #ifndef PARSER_H_
-#include <iostream>
+#define PARSER_H_
+
 #include <vector>
+#include <string>
+
 #include "InfInt.h"
 
 using namespace std;
 
-class Parser
+class Parser // working as Interface
 {
-private:
-	vector<char> operators;
-	vector<char> numbers;
-	bool RPL;
 public:
-	Parser(void);
-	~Parser(void);
-	vector<string> split(string value, char delemeter);
-	InfInt Operation(string expression);
+	virtual vector<string> split(string value, char delemeter) = 0;
+	virtual string getExpression() = 0;
 };
-
 #endif

@@ -1,22 +1,15 @@
 #include <iostream>
 
+#include "Calculator.h"
 #include "Parser.h"
+#include "ConsoleParser.h"
+#include "FileParser.h"
 
 int main(int argc, char *argv[]) {
+	Calculator *calc = new Calculator(new ConsoleParser());
+	//Calculator *calc = new Calculator(new FileParser("test.txt"));
 
-	string MyExpress= "263731 + 343263474 / ( 8 * ( 110 - 2563 ) )";
-
-#ifdef DEBUG
-	cout<<"Type expression: ";
-	getline(cin,MyExpress);
-	cout<<"Expression is"<<endl<<" => "<<MyExpress<<endl;
-#endif
-
-	Parser MyParser;
-
-	InfInt Result= MyParser.Operation(MyExpress);
-
-	cout<< Result << endl;
+	calc->run();
 
 	return 0;
 }
