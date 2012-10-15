@@ -28,8 +28,20 @@ vector<string> Parser::split(string value, char delimiter=' ') {
 }
 
 InfInt Parser::Operation(string expression){
-
+#ifdef DEBUG
+	cout<<"Parser::Operation debug started..."<<endl
+		<<"The expression is "<<endl
+		<<"  => "<<expression<<endl;
+#endif
+#ifdef DEBUG
+	cout<<"Splitting..."<<endl;
+#endif
 	vector<string> tokens= split(expression, ' ');
+#ifdef DEBUG
+	cout<<"Tokens are "<<endl;
+	for(vector<string>::iterator i=tokens.begin();i!=tokens.end();++i)
+		cout<<" => "<<*i<<endl;
+#endif
 
 	vector<string> post;
 	vector<string> temp;
@@ -49,9 +61,7 @@ InfInt Parser::Operation(string expression){
 					temp.pop_back();
 				}
 			}
-			else{
-				temp.push_back(tokens[i]);
-			}
+			temp.push_back(tokens[i]);
 		}
 		else if(tokens[i].at(0)== '('){
 			temp.push_back(tokens[i]);
@@ -72,6 +82,15 @@ InfInt Parser::Operation(string expression){
 			post.push_back(temp.back());
 		temp.pop_back();
 	}
+#ifdef DEBUG
+	cout<<"Changed to RPL."<<endl
+		<<"post is"<<endl;
+	for(vector<string>::iterator i=post.begin();i!=post.end();++i)
+		cout<<" => "<<*i<<endl;
+	cout<<"temp is"<<endl;
+	for(vector<string>::iterator i=temp.begin();i!=temp.end();++i)
+		cout<<" => "<<*i<<endl;
+#endif
 
 	vector<InfInt> InfVec;
 
@@ -105,5 +124,8 @@ InfInt Parser::Operation(string expression){
 
 	//InfInt ret(temp[0].c_str());
 	//return ret;
+#ifdef DEBUG
+	cout<<"Parser::Operation finished!"<<endl<<"Will return..."<<endl<<" => "<<InfVec[0]<<endl;
+#endif
 	return InfVec[0];
 }
