@@ -1,4 +1,6 @@
 #ifndef INFINT_H_
+#define INFINT_H_
+
 #include <iostream>
 #include <string>
 
