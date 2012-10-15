@@ -27,7 +27,7 @@ vector<string> FileParser::split(string value, char delemeter) {
 		}
 	}
 
-	for ( int i = 0; i < ret.size(); i++ ) {
+	for ( int i = 0; i < (int)ret.size(); i++ ) {
 		cout << ret.at(i) << " ";
 	}
 

@@ -90,14 +90,12 @@ InfInt Operator::Operation(vector<string> tokens) {
 
 InfInt Operator::Operation(vector<string> tokens){
 #ifdef DEBUG
-	cout<<"Parser::Operation debug started..."<<endl
-		<<"Expression is "<<endl
-		<<"  => "<<expression<<endl;
+	cout<<"Parser::Operation debug started..."<<endl;
 #endif
 #ifdef DEBUG
-	cout<<"Splitting..."<<endl;
+//	cout<<"Splitting..."<<endl;
 #endif
-	//vector<string> tokens= split(expression, ' ');
+//	vector<string> tokens= split(expression, ' ');
 #ifdef DEBUG
 	cout<<"Tokens are "<<endl;
 	for(vector<string>::iterator i=tokens.begin();i!=tokens.end();++i)
@@ -116,14 +114,6 @@ InfInt Operator::Operation(vector<string> tokens){
 		cout<<"tokens["<<i<<"] is debugging: "<<tokens[i]<<endl;
 #endif
 		if(tokens[i].compare(Mult)==0|| tokens[i].compare(Div)==0){
-			if(temp.size()!= 0 && (temp.begin()->compare(Mult)|| temp.begin()->compare(Div))){
-				for(int k=temp.size(); k>0; k--){
-					if(temp.back().compare(Lparen)==0)
-						continue;
-					post.push_back(temp.back());
-					temp.pop_back();
-				}
-			}
 			temp.push_back(tokens[i]);
 		}
 		else if(tokens[i].compare(Plus)==0|| tokens[i].compare(Minus)==0){
