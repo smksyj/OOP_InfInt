@@ -106,18 +106,21 @@ InfInt Operator::Operation(vector<string> tokens){
 	vector<string> temp;
 
 	const string Plus("+"), Minus("-"), Mult("*"), Div("/"),
-		Pow("^"), Root("root"),
+		Pow("^"), Root("v"),
 		Lparen("("), Rparen(")");
 
 	for(int i=0; i<(int)tokens.size(); i++){
 #ifdef DEBUG
 		cout<<"tokens["<<i<<"] is debugging: "<<tokens[i]<<endl;
 #endif
-		if(tokens[i].compare(Mult)==0|| tokens[i].compare(Div)==0){
+		if(tokens[i].compare(Pow)==0|| tokens[i].compare(Root)==0){
+			temp.push_back(tokens[i]);
+		}
+		else if(tokens[i].compare(Mult)==0|| tokens[i].compare(Div)==0){
 			temp.push_back(tokens[i]);
 		}
 		else if(tokens[i].compare(Plus)==0|| tokens[i].compare(Minus)==0){
-			if(temp.size()!= 0 && (temp.begin()->compare(Mult)|| temp.begin()->compare(Div))){
+			if(temp.size()!= 0 && (temp.begin()->compare(Pow)|| temp.begin()->compare(Root)|| temp.begin()->compare(Mult)|| temp.begin()->compare(Div))){
 				for(int k=temp.size(); k>0; k--){
 					if(temp.back().compare(Lparen)==0)
 						continue;
@@ -170,23 +173,50 @@ InfInt Operator::Operation(vector<string> tokens){
 #ifdef DEBUG
 		cout<<"post["<<i<<"] is debugging: "<<post[i]<<endl;
 #endif
-		if(post[i].compare(Plus)==0|| post[i].compare(Minus)==0|| post[i].compare(Mult)==0|| post[i].compare(Div)==0){
+		if(post[i].compare(Plus)==0|| post[i].compare(Minus)==0|| post[i].compare(Mult)==0|| post[i].compare(Div)==0|| post[i].compare(Pow)==0|| post[i].compare(Root)==0){
 			InfInt A(InfVec.back());
 			InfVec.pop_back();
 			InfInt B(InfVec.back());
 			InfVec.pop_back();
 			InfInt C;
+#ifdef DEBUG
+			cout<<"A: "<<A<<" B: "<<B<<endl;
+#endif
 			if(post[i].compare(Plus)==0){
 				C= B+A;
+#ifdef DEBUG
+				cout<<"B+A -> C: "<<C<<endl;
+#endif
 			}
 			else if(post[i].compare(Minus)==0){
 				C= B-A;
+#ifdef DEBUG
+				cout<<"B-A -> C: "<<C<<endl;
+#endif
 			}
-		else if(post[i].compare(Mult)==0){
+			else if(post[i].compare(Mult)==0){
 				C= B*A;
+#ifdef DEBUG
+				cout<<"B*A -> C: "<<C<<endl;
+#endif
 			}
-		else if(post[i].compare(Div)==0){
+			else if(post[i].compare(Div)==0){
 				C= B/A;
+#ifdef DEBUG
+				cout<<"B/A -> C: "<<C<<endl;
+#endif
+			}
+			else if(post[i].compare(Pow)==0){
+				C= B.pow(A);
+#ifdef DEBUG
+				cout<<"B^A -> C: "<<C<<endl;
+#endif
+			}
+			else if(post[i].compare(Root)==0){
+				C= B.root(A);
+#ifdef DEBUG
+				cout<<"BvA -> C: "<<C<<endl;
+#endif
 			}
 			InfVec.push_back(C);
 		}
