@@ -1,5 +1,7 @@
 #include "InfInt.h"
 
+//#define DEBUG
+
 const int ASCII_POSITION = 48;
 
 InfInt::InfInt() { // assign 0 as a default value
@@ -11,18 +13,23 @@ InfInt::InfInt(int value) {
 	this->digits = "";
 	this->thesign = value > 0 ? true : false;
 
-	while ( value != 0 ) {
-		if ( value % 10 == 0 ) {
-			this->digits += "0";
-		} else {
-			this->digits += value % 10 + 48;
+	if ( value == 0 ) {
+		this->digits += "0";
+	} else {
+		while ( value != 0 ) {
+			if ( value % 10 == 0 ) {
+				this->digits += "0";
+			} else {
+				this->digits += value % 10 + 48;
+			}
+			value /= 10;
 		}
-		value /= 10;
 	}
-
+	/*
 	if ( value == 0 ) {
 		this->digits += "0";
 	}
+	*/
 }
 
 InfInt::InfInt(const string value) {

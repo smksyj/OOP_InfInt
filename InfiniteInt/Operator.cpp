@@ -1,4 +1,5 @@
 #include "Operator.h"
+//#define DEBUG
 
 
 Operator::Operator(void)
