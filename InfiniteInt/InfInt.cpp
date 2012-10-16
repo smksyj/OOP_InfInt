@@ -386,8 +386,12 @@ InfInt InfInt::root(const InfInt& num) {
 #endif
 	InfInt ret(-1);
 	InfInt one(1);
-	if(this->thesign!=true||num<one)
+	if(me.thesign!=true||num<one){
+#ifdef DEBUG
+		cout<<"Can't calculate root. Will return "<<ret<<endl;
+#endif
 		return ret;
+	}
 	for(ret=one;ret.pow(num)<me+one;ret=ret+one){
 #ifdef DEBUG
 		cout<<"ret:"<<ret<<" ret.pow(num):"<<ret.pow(num)<<" ret.pow(num)<me:"<<(ret.pow(num)<me)<<endl<<"Press any key..."<<endl;
