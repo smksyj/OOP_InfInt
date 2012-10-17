@@ -275,10 +275,15 @@ InfInt operator+(const InfInt& self, const InfInt& other) {
 						goto selfIsBigger;
 					} else if ( self.digits.at(i) - other.digits.at(i) < 0 ) {
 						goto selfIsSmaller;
-					} else {
+					}
+					/*
+					else {
 						return InfInt("0");
 					}
+					*/
 				}
+
+				return InfInt("0");
 			}
 
 			/*
