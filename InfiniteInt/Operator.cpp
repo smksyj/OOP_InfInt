@@ -1,5 +1,4 @@
 #include "Operator.h"
-//#define DEBUG
 
 
 Operator::Operator(void)
@@ -115,11 +114,19 @@ InfInt Operator::Operation(vector<string> tokens){
 		cout<<"tokens["<<i<<"] is debugging: "<<tokens[i]<<endl;
 #endif
 		if(tokens[i].compare(Pow)==0|| tokens[i].compare(Root)==0){
+			if(temp.size()!= 0 && (temp.at(temp.size()-1).compare(Pow)==0|| temp.at(temp.size()-1).compare(Root)==0)){
+				{
+					if(temp.back().compare(Lparen)==0)
+						continue;
+					post.push_back(temp.back());
+					temp.pop_back();
+				}
+			}
 			temp.push_back(tokens[i]);
 		}
-		else if(tokens[i].compare(Mult)==0|| tokens[i].compare(Div)==0){
- 			if(temp.size()!= 0 && (temp.begin()->compare(Pow)==0|| temp.begin()->compare(Root)==0|| temp.begin()->compare(Mult)==0|| temp.begin()->compare(Div)==0)){
-				for(int k=temp.size(); k>0; k--){
+ 		else if(tokens[i].compare(Mult)==0|| tokens[i].compare(Div)==0){
+ 			while(temp.size()!= 0 && (temp.at(temp.size()-1).compare(Pow)==0|| temp.at(temp.size()-1).compare(Root)==0|| temp.at(temp.size()-1).compare(Mult)==0|| temp.at(temp.size()-1).compare(Div)==0)){
+				{
 					if(temp.back().compare(Lparen)==0)
 						continue;
 					post.push_back(temp.back());
@@ -129,8 +136,9 @@ InfInt Operator::Operation(vector<string> tokens){
 			temp.push_back(tokens[i]);
 		}
 		else if(tokens[i].compare(Plus)==0|| tokens[i].compare(Minus)==0){
-			if(temp.size()!= 0 && (temp.begin()->compare(Pow)==0|| temp.begin()->compare(Root)==0|| temp.begin()->compare(Mult)==0|| temp.begin()->compare(Div)==0|| temp.begin()->compare(Plus)==0|| temp.begin()->compare(Minus)==0)){
-				for(int k=temp.size(); k>0; k--){
+			
+			while(temp.size()!= 0 && (temp.at(temp.size()-1).compare(Pow)==0|| temp.at(temp.size()-1).compare(Root)==0|| temp.at(temp.size()-1).compare(Mult)==0|| temp.at(temp.size()-1).compare(Div)==0|| temp.at(temp.size()-1).compare(Minus)==0|| temp.at(temp.size()-1).compare(Plus)==0)){
+				{
 					if(temp.back().compare(Lparen)==0)
 						continue;
 					post.push_back(temp.back());
