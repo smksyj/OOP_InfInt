@@ -6,8 +6,13 @@
 #include "FileParser.h"
 
 int main(int argc, char *argv[]) {
-	Calculator *calc = new Calculator(new ConsoleParser());
-	//Calculator *calc = new Calculator(new FileParser("test.txt"));
+	Calculator *calc = NULL;
+
+	if ( argc == 2 ) {
+		calc = new Calculator(new FileParser(argv[1]));
+	} else {
+		calc = new Calculator(new ConsoleParser());
+	}
 
 	calc->run();
 
