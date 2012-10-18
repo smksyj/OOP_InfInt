@@ -118,7 +118,7 @@ InfInt Operator::Operation(vector<string> tokens){
 			temp.push_back(tokens[i]);
 		}
 		else if(tokens[i].compare(Mult)==0|| tokens[i].compare(Div)==0){
- 			if(temp.size()!= 0 && (temp.begin()->compare(Pow)|| temp.begin()->compare(Root))){
+ 			if(temp.size()!= 0 && (temp.begin()->compare(Pow)==0|| temp.begin()->compare(Root)==0|| temp.begin()->compare(Mult)==0|| temp.begin()->compare(Div)==0)){
 				for(int k=temp.size(); k>0; k--){
 					if(temp.back().compare(Lparen)==0)
 						continue;
@@ -129,7 +129,7 @@ InfInt Operator::Operation(vector<string> tokens){
 			temp.push_back(tokens[i]);
 		}
 		else if(tokens[i].compare(Plus)==0|| tokens[i].compare(Minus)==0){
-			if(temp.size()!= 0 && (temp.begin()->compare(Pow)|| temp.begin()->compare(Root)|| temp.begin()->compare(Mult)|| temp.begin()->compare(Div))){
+			if(temp.size()!= 0 && (temp.begin()->compare(Pow)==0|| temp.begin()->compare(Root)==0|| temp.begin()->compare(Mult)==0|| temp.begin()->compare(Div)==0)){
 				for(int k=temp.size(); k>0; k--){
 					if(temp.back().compare(Lparen)==0)
 						continue;
